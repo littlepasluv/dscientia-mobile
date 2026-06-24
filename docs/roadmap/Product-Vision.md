@@ -82,6 +82,19 @@ The goal is to help organizations not only understand what has happened, but als
 
 ---
 
+# AI Vision
+
+DscienTia leverages Artificial Intelligence to transform community-generated data into actionable intelligence.
+
+The platform assists NGOs, foundations, and community leaders by:
+
+- Detecting emerging community risks
+- Identifying impact trends
+- Generating actionable recommendations
+- Supporting evidence-based decision making
+
+Rather than functioning solely as a reporting platform, DscienTia aims to become an AI-powered Community Impact Intelligence Platform.
+
 ## Success Metrics
 
 ### Adoption Metrics
