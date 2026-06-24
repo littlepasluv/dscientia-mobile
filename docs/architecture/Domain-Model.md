@@ -1,37 +1,29 @@
-# Domain Model
-
-## Purpose
-
-This document defines the core business entities of DscienTia Mobile and their relationships.
-
-The domain model serves as the foundation for:
-
-- Mobile application design
-- Database architecture
-- API development
-- Analytics and reporting
-- Future AI-assisted insights
-
----
-
 # Domain Overview
 
-DscienTia connects organizations, communities, volunteers, and projects through a mobile-first impact reporting platform.
+DscienTia connects organizations, communities, volunteers, and projects through a mobile-first impact reporting and intelligence platform.
 
-```text
 Organization
     │
-    ├── Project
-    │      ├── Activity
-    │      ├── Report
-    │      └── Impact Metric
+    ├── Projects
+    │      ├── Activities
+    │      ├── Reports
+    │      └── Impact Metrics
     │
-    └── Community
+    └── Communities
             │
-            ├── Volunteer
-            ├── Beneficiary
-            └── Report
-```
+            ├── Volunteers
+            └── Beneficiaries
+
+Reports + Impact Metrics
+          │
+          ▼
+      AI Insight
+          │
+          ├── Risk Assessment
+          ├── Recommendation
+          └── Impact Trend
+
+The platform combines operational data collection with AI-powered intelligence services to support evidence-based decision making for social impact organizations.
 
 ---
 
@@ -251,9 +243,110 @@ Represents measurable outcomes.
 
 ---
 
+# AI Intelligence Entities
+
+The following entities are generated or enhanced by the AI Intelligence Layer.
+
+---
+
+## AI Insight
+
+Represents AI-generated observations and analysis.
+
+### Attributes
+
+| Attribute | Description |
+|------------|------------|
+| insightId | Unique identifier |
+| relatedReports | Analyzed reports |
+| summary | Generated summary |
+| modelSource | AI model generating insight |
+| confidenceScore | AI confidence score |
+| generatedAt | Creation date |
+
+### Relationships
+
+- One AI Insight may analyze many Reports
+- One AI Insight may generate many Recommendations
+- One AI Insight may identify multiple Risks
+- One AI Insight may identify many Impact Trends
+
+## Risk Assessment
+
+Represents an AI-generated evaluation of community risks.
+
+### Attributes
+
+| Attribute | Description |
+|------------|------------|
+| riskId | Unique identifier |
+| communityId | Related community |
+| riskLevel | Low, Medium, High |
+| confidenceScore | Confidence score |
+| generatedAt | Creation date |
+
+### Relationships
+
+- One Community may have many Risk Assessments
+- One Risk Assessment may produce many Recommendations
+
+### Risk Levels
+
+- Low
+- Medium
+- High
+- Critical
+
+## Recommendation
+
+Represents AI-generated recommendations for action.
+
+### Attributes
+
+| Attribute | Description |
+|------------|------------|
+| recommendationId | Unique identifier |
+| riskId | Associated risk |
+| description | Recommendation text |
+| priority | Low, Medium, High |
+| generatedAt | Creation date |
+| status | Pending, Accepted, Implemented |
+
+### Relationships
+
+- One Recommendation belongs to one Risk Assessment
+- One Recommendation may support one or more Projects
+
+### Priority Levels
+
+- Low
+- Medium
+- High
+- Critical
+
+## Impact Trend
+
+Represents AI-generated trend analysis across projects and communities.
+
+### Attributes
+
+| Attribute | Description |
+|------------|------------|
+| trendId | Unique identifier |
+| metricName | Metric being analyzed |
+| trendDirection | Increasing, Stable, Decreasing |
+| confidenceScore | AI confidence |
+| generatedAt | Creation date |
+
+### Relationships
+
+- One Impact Trend may analyze many Impact Metrics
+- One Impact Trend may support many Recommendations
+
+---
+
 # Relationship Diagram
 
-```text
 Organization
 │
 ├── Users
@@ -267,9 +360,16 @@ Organization
 └── Communities
       │
       ├── Volunteers
-      ├── Beneficiaries
-      └── Reports
-```
+      └── Beneficiaries
+
+Reports + Impact Metrics
+          │
+          ▼
+      AI Insight
+          │
+          ├── Risk Assessment
+          ├── Recommendation
+          └── Impact Trend
 
 ---
 
@@ -293,21 +393,44 @@ Tracking aid and resource allocation.
 
 Historical data for analytics.
 
-## AI Insight
+## AI Assistant
 
-Automatically generated findings.
+Conversational assistant for project and community intelligence.
 
-## Recommendation Engine
+## Predictive Analytics
 
-Suggested actions based on community conditions.
+Forecasting future risks and intervention outcomes.
+
+## Geospatial Intelligence
+
+Location-based risk analysis and community mapping.
+
+## Community Trend Monitoring
+
+Longitudinal monitoring of community well-being indicators.
+
+# AI Readiness
+
+This domain model has been designed to support future AI-powered capabilities, including:
+
+- Risk Detection
+- Impact Trend Analysis
+- Recommendation Generation
+- Decision Support Intelligence
+- Community Impact Forecasting
+
+These capabilities will be implemented through the DscienTia AI Intelligence Layer.
 
 ---
 
 # Version
 
-Domain Model v0.2
+Domain Model v0.3
+
+AI Transformation Edition
 
 Created: June 2026
+Updated: June 2026
 
 Related Documents:
 
