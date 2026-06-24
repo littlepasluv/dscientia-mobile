@@ -203,19 +203,60 @@ Understanding user personas helps guide:
 
 ---
 
-# Persona 4: Social Researcher
+# Persona 4: Social Researcher & Impact Analyst
 
 ## Profile
 
 **Name:** Dr. Ahmad Wijaya
 
-**Role:** Researcher / Data Analyst
+**Role:** Social Researcher / Impact Analyst
 
-**Organization Type:** University / Research Institution
+**Organization Type:** University, Research Institution, NGO, Foundation, or Development Agency
 
 **Age Range:** 25–60
 
 **Technical Proficiency:** Advanced
+
+---
+
+## Background
+
+Dr. Ahmad works with social organizations, universities, and development programs to evaluate the effectiveness of community interventions.
+
+He frequently analyzes community reports, program outcomes, survey results, and field observations to generate evidence-based recommendations for stakeholders.
+
+---
+
+## Goals
+
+* Measure social impact accurately
+* Identify trends across communities
+* Produce donor and stakeholder reports
+* Support evidence-based policy recommendations
+* Monitor long-term program effectiveness
+
+---
+
+## Frustrations
+
+* Data scattered across spreadsheets and messaging platforms
+* Time-consuming report preparation
+* Difficulty identifying trends across large datasets
+* Limited visibility into real-time community conditions
+
+---
+
+## How DscienTia Helps
+
+DscienTia provides:
+
+* Centralized impact data collection
+* AI-generated summaries and insights
+* Community trend analysis
+* Risk identification
+* Evidence-based recommendations
+
+This enables researchers and impact analysts to spend less time compiling data and more time generating actionable knowledge.
 
 ---
 
