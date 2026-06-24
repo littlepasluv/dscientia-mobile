@@ -1,114 +1,353 @@
-# ADR-001 Mobile Platform Strategy
+# ADR-001: Mobile Platform Strategy
 
 ## Status
 
 Accepted
 
-## Date
+---
 
-2026-06-22
+# Context
 
-## Context
+DscienTia aims to become an AI-powered community impact intelligence platform that enables organizations, volunteers, researchers, and community leaders to collect, analyze, and act upon social impact data.
 
-DscienTia Mobile is being developed as a platform to support community impact reporting, volunteer engagement, project monitoring, and data-driven decision making.
+The platform must support:
 
-The application must:
+* Android devices
+* iOS devices
+* Offline-first operations
+* AI-assisted decision support
+* Future integration with cloud-based analytics platforms
+* Rapid development with limited engineering resources
 
-* Support both Android and iOS platforms
-* Operate in low-connectivity environments
-* Provide offline data collection capabilities
-* Minimize development and maintenance costs
-* Scale for future community and organizational growth
+The project is initially being developed by a small team with a focus on creating a functional MVP while maintaining long-term scalability.
 
-## Options Considered
+---
 
-### Option 1: Native Development
+# Problem Statement
 
-Description:
+Several technology approaches were evaluated for building the DscienTia Mobile platform.
 
-Develop separate applications using Kotlin for Android and Swift for iOS.
+The primary challenges include:
 
-Advantages:
+* Supporting both Android and iOS platforms
+* Minimizing development and maintenance effort
+* Enabling offline reporting capabilities
+* Providing responsive user experiences
+* Integrating future AI intelligence services
+* Supporting long-term scalability
 
-* Maximum performance
-* Full access to platform-specific APIs
-* Best native user experience
+The platform architecture must balance speed of development with future extensibility.
 
-Disadvantages:
+---
 
-* Two separate codebases
-* Higher development effort
-* Increased maintenance costs
+# Decision
 
-### Option 2: Progressive Web Application (PWA)
+DscienTia will adopt:
 
-Description:
+## Mobile Framework
 
-Develop a web-based application with offline support and installable capabilities.
+Flutter
 
-Advantages:
+## Architecture Strategy
+
+Cross-platform mobile application with offline-first capabilities.
+
+## AI Strategy
+
+Cloud-assisted AI Intelligence Layer integrated through APIs.
+
+---
+
+# Decision Drivers
+
+The following factors influenced the decision.
+
+## Cross-Platform Development
+
+A single codebase reduces development effort while ensuring consistent user experiences across Android and iOS.
+
+## Limited Resources
+
+As an early-stage project, maintaining separate Android and iOS codebases would significantly increase complexity.
+
+## Offline-First Requirements
+
+Many users operate in remote or underserved areas where internet connectivity is unreliable.
+
+## Future AI Integration
+
+The platform requires flexibility to integrate AI services for:
+
+* Insight generation
+* Risk detection
+* Recommendation generation
+* Predictive analytics
+
+## Rapid MVP Development
+
+The project prioritizes fast validation while maintaining architectural quality.
+
+---
+
+# Options Considered
+
+## Option 1: Native Development
+
+### Android
+
+Kotlin
+
+### iOS
+
+Swift
+
+### Advantages
+
+* Maximum platform optimization
+* Full hardware access
+* Native user experience
+
+### Disadvantages
+
+* Two codebases
+* Higher maintenance costs
+* Slower development speed
+
+### Decision
+
+Rejected for MVP.
+
+---
+
+## Option 2: Progressive Web Application (PWA)
+
+### Advantages
+
+* Single web codebase
+* Easy deployment
+* Lower initial cost
+
+### Disadvantages
+
+* Limited native capabilities
+* Reduced offline support
+* Push notification limitations
+* Lower performance
+
+### Decision
+
+Rejected.
+
+---
+
+## Option 3: Flutter
+
+### Advantages
 
 * Single codebase
-* Rapid deployment
-* Lower development complexity
+* Excellent Android support
+* Excellent iOS support
+* Strong performance
+* Rich UI capabilities
+* Large ecosystem
+* Offline support
 
-Disadvantages:
-
-* Limited access to native device capabilities
-* Inconsistent support across platforms
-* Reduced performance for advanced mobile features
-
-### Option 3: Flutter
-
-Description:
-
-Develop a single cross-platform application using Flutter and Dart.
-
-Advantages:
-
-* Single codebase for Android and iOS
-* Near-native performance
-* Strong developer ecosystem
-* Excellent support for offline-first applications
-* Faster feature development
-
-Disadvantages:
+### Disadvantages
 
 * Larger application size
-* Dependency on Flutter ecosystem and tooling
+* Dependency on Flutter ecosystem
 
-## Decision
+### Decision
 
-DscienTia Mobile will use Flutter as the primary mobile development framework.
+Selected.
 
-## Rationale
+---
 
-Flutter provides the best balance between development efficiency, performance, maintainability, and cross-platform compatibility.
+# Mobile Operating System Considerations
 
-The framework supports the project's need for:
+## Android
 
-* Android and iOS deployment
-* Offline-first architecture
-* Rapid feature iteration
-* Long-term maintainability
+Relevant Components:
 
-These requirements align closely with the goals of DscienTia as a social innovation and community impact platform.
+* Activity Lifecycle
+* Services
+* Broadcast Receivers
+* Local Storage
 
-## Consequences
+Impact on DscienTia:
 
-### Positive
+* Supports background synchronization
+* Enables offline caching
+* Supports push notifications
 
-* Faster development cycle
-* Reduced maintenance effort
-* Consistent user experience across platforms
-* Easier onboarding of future contributors
+---
 
-### Negative
+## iOS
 
-* Reliance on Flutter ecosystem
-* Potential migration costs if technology choices change in the future
+Relevant Components:
 
-## Related Coursework
+* UIApplication Lifecycle
+* Background Tasks
+* APNs (Apple Push Notification Service)
+* Local Storage Frameworks
 
-CS4405 Unit 1:
-Mobile Computing Evolution, Native Applications, Hybrid Applications, Progressive Web Applications, and Mobile Platform Architecture.
+Impact on DscienTia:
+
+* More restrictive background processing
+* Strong privacy protections
+* Requires optimized synchronization strategies
+
+---
+
+# Offline-First Strategy
+
+The application will prioritize local data persistence.
+
+## Offline Capabilities
+
+Supported offline:
+
+* Report creation
+* Photo attachment storage
+* Draft management
+* Activity tracking
+
+Requires connectivity:
+
+* AI processing
+* Cloud synchronization
+* Notification delivery
+
+---
+
+## Synchronization Model
+
+```text
+Local Storage
+      │
+      ▼
+Sync Queue
+      │
+      ▼
+Cloud API
+      │
+      ▼
+AI Intelligence Layer
+```
+
+Synchronization occurs automatically when connectivity becomes available.
+
+---
+
+# AI Intelligence Strategy
+
+DscienTia introduces an AI Intelligence Layer responsible for transforming operational data into actionable insights.
+
+---
+
+## Input Sources
+
+* Reports
+* Impact Metrics
+* Community Updates
+* Survey Responses
+
+---
+
+## AI Outputs
+
+### AI Insight
+
+Generated summaries and observations.
+
+### Risk Assessment
+
+Identification of emerging community risks.
+
+### Recommendations
+
+Suggested interventions and actions.
+
+### Impact Trends
+
+Analysis of long-term program effectiveness.
+
+---
+
+# MVP AI Scope
+
+Version 1 includes:
+
+* AI Insight Summary
+* Basic Risk Detection
+
+Future releases may include:
+
+* Predictive Analytics
+* Conversational AI Assistant
+* Geospatial Intelligence
+* Community Forecasting
+
+---
+
+# Architectural Principles
+
+## Mobile-First
+
+Primary experiences are designed for mobile devices.
+
+## Offline-First
+
+Core workflows remain functional without connectivity.
+
+## API-Driven
+
+Business logic and intelligence services remain server-side.
+
+## AI-Ready
+
+Architecture supports future AI expansion.
+
+## Scalable
+
+Designed for growth across multiple organizations and communities.
+
+---
+
+# Consequences
+
+## Positive Outcomes
+
+* Faster development
+* Lower maintenance effort
+* Strong cross-platform support
+* AI integration flexibility
+* Better user experience in low-connectivity environments
+
+## Trade-Offs
+
+* Dependency on Flutter ecosystem
+* Cloud infrastructure requirements
+* AI processing costs
+
+---
+
+# Related Documents
+
+* Product Vision
+* User Personas
+* Domain Model
+* Information Architecture
+* System Architecture
+
+---
+
+# Version
+
+ADR-001 v0.3
+
+AI Transformation Edition
+
+Created: June 2026
+
+Updated: June 2026
