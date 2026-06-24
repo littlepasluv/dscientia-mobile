@@ -4,15 +4,15 @@
 
 This document defines the high-level architecture of the DscienTia platform.
 
-DscienTia is an AI-powered Community Impact Intelligence Platform designed to help NGOs, foundations, community leaders, and volunteers collect, manage, analyze, and act upon community data more effectively.
+DscienTia is an AI-powered Community Impact Intelligence Platform designed to help NGOs, foundations, community leaders, volunteers, and researchers collect, manage, analyze, and act upon community data more effectively.
 
-The architecture described in this document serves as the technical blueprint for future development and ensures scalability, maintainability, security, and AI readiness.
+The architecture described in this document serves as the technical blueprint for future development and ensures scalability, maintainability, security, offline usability, and AI readiness.
 
 ---
 
 # Architecture Vision
 
-DscienTia aims to become a data-driven ecosystem that transforms community activities into measurable social impact.
+DscienTia aims to become an AI-powered Community Impact Intelligence Platform that transforms field data into actionable insights, risk assessments, recommendations, and measurable social impact outcomes.
 
 The platform enables:
 
@@ -20,13 +20,15 @@ The platform enables:
 * Community issue reporting
 * Project monitoring and evaluation
 * AI-assisted impact analysis
+* Risk detection and early warning systems
 * Decision support for social organizations
+* Long-term impact intelligence
 
 ---
 
 # Architectural Principles
 
-The DscienTia platform is designed according to the following principles:
+The DscienTia platform is designed according to the following principles.
 
 ## 1. Mobile First
 
@@ -51,29 +53,36 @@ All services should communicate through well-defined APIs.
 This allows future integration with:
 
 * Web applications
-* External systems
 * Research platforms
 * Government systems
+* NGO partner systems
+* External AI services
 
 ---
 
-## 4. AI Ready
+## 4. AI Native
 
-Artificial Intelligence is a core capability rather than an afterthought.
+Artificial Intelligence is a core platform capability.
 
-The architecture should support future AI-powered services.
+AI is embedded into the product architecture rather than added as a separate feature.
 
 ---
 
 ## 5. Security by Design
 
-User privacy and organizational data protection must be considered from the beginning of development.
+User privacy and organizational data protection must be built into every system layer.
 
 ---
 
 ## 6. Scalable by Design
 
-The platform should support future growth without requiring major architectural redesign.
+The architecture should support future organizational growth without requiring major redesign.
+
+---
+
+## 7. Data-Driven Decision Making
+
+Every platform component should contribute toward generating measurable social impact intelligence.
 
 ---
 
@@ -84,21 +93,28 @@ The platform should support future growth without requiring major architectural 
 |               Flutter Mobile App               |
 +------------------------+-----------------------+
                          |
-                         v
+                         ▼
 +------------------------------------------------+
 |                  API Gateway                   |
 +------------------------+-----------------------+
                          |
-                         v
+                         ▼
 +------------------------------------------------+
 |                Backend Services                |
 +------------------------+-----------------------+
 | User Service           | Report Service        |
 | Project Service        | Notification Service |
-| AI Insight Service     | Future Services       |
 +------------------------+-----------------------+
                          |
-                         v
+                         ▼
++------------------------------------------------+
+|             AI Intelligence Layer              |
++------------------------+-----------------------+
+| Insight Engine         | Risk Engine           |
+| Recommendation Engine  | Trend Analysis Engine |
++------------------------+-----------------------+
+                         |
+                         ▼
 +------------------------------------------------+
 |                   Database                     |
 +------------------------------------------------+
@@ -123,6 +139,7 @@ The platform should support future growth without requiring major architectural 
 * Notification display
 * AI insight presentation
 * Offline data collection
+* Risk alert visualization
 
 ### Supported Platforms
 
@@ -131,7 +148,7 @@ The platform should support future growth without requiring major architectural 
 
 ---
 
-## API Layer
+## API Gateway
 
 ### Purpose
 
@@ -142,17 +159,19 @@ Acts as the communication gateway between mobile applications and backend servic
 * Request validation
 * Authentication
 * Authorization
-* Service routing
+* API routing
 * Error handling
+* Rate limiting
 
 ### Initial API Strategy
 
-REST API
+* REST API
 
 ### Future Possibilities
 
 * GraphQL
-* Public API integrations
+* Public APIs
+* Third-party integrations
 
 ---
 
@@ -176,6 +195,8 @@ Backend services contain the core business logic of the platform.
 * Volunteer
 * Community Leader
 * NGO Manager
+* Researcher
+* Administrator
 
 ---
 
@@ -194,6 +215,7 @@ Backend services contain the core business logic of the platform.
 * Survey responses
 * Project updates
 * Incident reports
+* Impact evidence
 
 ---
 
@@ -216,108 +238,102 @@ Backend services contain the core business logic of the platform.
 * System alerts
 * Activity reminders
 * Escalation notifications
+* AI-generated alerts
 
 ### Examples
 
 * New project assignment
 * Report approved
 * Community risk detected
+* Recommendation generated
 
 ---
 
-## AI Insight Service
+# AI Intelligence Layer
+
+The AI Intelligence Layer transforms operational data into actionable intelligence.
+
+Its purpose is to support decision making for NGOs, community leaders, researchers, and volunteers.
+
+---
+
+## Insight Engine
 
 ### Responsibilities
 
-* Analyze reports
-* Detect trends
-* Identify risks
-* Generate recommendations
+* Summarize field reports
+* Detect recurring issues
+* Generate impact narratives
 
-### Example Output
+### Output
 
-Risk Level: Medium
+* AI Insight
 
-Observed Trend:
-Increase in water-related complaints during the last 30 days.
+---
 
-Suggested Action:
-Coordinate water distribution and conduct infrastructure assessment.
+## Risk Detection Engine
+
+### Responsibilities
+
+* Identify emerging risks
+* Detect anomaly patterns
+* Evaluate community vulnerability
+
+### Output
+
+* Risk Assessment
+
+---
+
+## Recommendation Engine
+
+### Responsibilities
+
+* Suggest interventions
+* Recommend actions
+* Prioritize community needs
+
+### Output
+
+* Recommendations
+
+---
+
+## Impact Trend Engine
+
+### Responsibilities
+
+* Analyze historical metrics
+* Detect long-term patterns
+* Measure project effectiveness
+
+### Output
+
+* Impact Trends
 
 ---
 
 # Data Architecture
 
-## Core Business Entities
+## Core Operational Data
 
-### User
-
-Represents all authenticated platform users.
-
-Attributes:
-
-* User ID
-* Name
-* Email
-* Role
-* Organization
+* Users
+* Organizations
+* Communities
+* Projects
+* Activities
+* Reports
+* Beneficiaries
+* Impact Metrics
 
 ---
 
-### Community
+## AI Intelligence Data
 
-Represents a community or beneficiary group.
-
-Attributes:
-
-* Community ID
-* Name
-* Geographic Location
-* Population
-
----
-
-### Project
-
-Represents a social intervention or program.
-
-Attributes:
-
-* Project ID
-* Name
-* Status
-* Start Date
-* End Date
-
----
-
-### Report
-
-Represents information submitted by users.
-
-Attributes:
-
-* Report ID
-* Title
-* Description
-* Category
-* Status
-* Location
-* Created Date
-
----
-
-### AI Insight
-
-Represents AI-generated observations and recommendations.
-
-Attributes:
-
-* Insight ID
-* Related Reports
-* Risk Level
-* Summary
-* Recommendation
+* AI Insights
+* Risk Assessments
+* Recommendations
+* Impact Trends
 
 ---
 
@@ -332,7 +348,7 @@ Volunteer
 Mobile Application
     │
     ▼
-API Layer
+API Gateway
     │
     ▼
 Report Service
@@ -363,22 +379,21 @@ Community Leader / NGO Manager
 ## AI Analysis Flow
 
 ```text
-Reports
-    │
-    ▼
-AI Insight Service
-    │
-    ▼
-Pattern Analysis
-    │
-    ▼
-Risk Detection
-    │
-    ▼
-Recommendations
-    │
-    ▼
-Mobile Dashboard
+Reports + Impact Metrics
+            │
+            ▼
+     AI Intelligence Layer
+            │
+            ├── Insight Engine
+            │
+            ├── Risk Engine
+            │
+            ├── Recommendation Engine
+            │
+            └── Trend Engine
+                    │
+                    ▼
+             Mobile Dashboard
 ```
 
 ---
@@ -400,7 +415,7 @@ Support users working in:
 
 * Draft report storage
 * Local caching
-* Automatic synchronization when connected
+* Automatic synchronization
 
 ---
 
@@ -418,8 +433,7 @@ Support users working in:
 
 ### MVP
 
-* Email
-* Password
+* Email and Password
 
 ### Future
 
@@ -438,6 +452,8 @@ Supported roles:
 * Volunteer
 * Community Leader
 * NGO Manager
+* Researcher
+* Administrator
 
 ---
 
@@ -449,54 +465,69 @@ Requirements:
 * Secure credential storage
 * Encrypted communication
 * Secure API access
+* Audit logging
 
 ---
 
-# AI Architecture Roadmap
+# AI Capability Roadmap
 
-## Phase 1 – AI Insight Summary
+## AI Capability 1
 
-Input:
+### AI Insight Summary
+
+Generates summaries from:
 
 * Reports
 * Surveys
-* Project updates
-
-Output:
-
-* Summaries
-* Trend observations
-* Basic recommendations
+* Project Updates
 
 ---
 
-## Phase 2 – Community Risk Detection
+## AI Capability 2
 
-Input:
+### Risk Assessment
 
-* Historical reports
-* Geographic information
+Detects:
 
-Output:
-
-* Risk alerts
-* Emerging issue detection
+* Community risks
+* Emerging issues
+* Vulnerability indicators
 
 ---
 
-## Phase 3 – Decision Support Intelligence
+## AI Capability 3
 
-Input:
+### Recommendation Intelligence
 
-* Program history
-* Community metrics
-* Resource data
+Generates:
 
-Output:
+* Suggested interventions
+* Resource prioritization
+* Action plans
 
-* Recommended actions
-* Resource allocation suggestions
+---
+
+## AI Capability 4
+
+### Impact Trend Analysis
+
+Measures:
+
+* Program effectiveness
+* Community improvements
+* Longitudinal impact
+
+---
+
+## AI Capability 5
+
+### Predictive Community Intelligence
+
+Future capability:
+
+* Risk forecasting
 * Impact forecasting
+* Scenario simulation
 
 ---
 
@@ -514,7 +545,7 @@ Output:
 Primary Candidate:
 
 * Laravel 12
-* PHP
+* PHP 8+
 
 Alternative:
 
@@ -533,6 +564,7 @@ Future Options:
 
 * PostgreSQL + PostGIS
 * Data Warehouse
+* Analytics Lakehouse
 
 ---
 
@@ -540,13 +572,16 @@ Future Options:
 
 Primary Candidate:
 
-* IBM Granite Models
 * IBM watsonx.ai
+* IBM Granite Models
+* IBM Agent Lab
 
-Future Options:
+Potential Future Integrations:
 
+* OpenAI
+* Anthropic Claude
 * Open-source LLMs
-* Domain-specific impact intelligence models
+* Custom Social Impact Models
 
 ---
 
@@ -558,16 +593,16 @@ Version 1 focuses on delivering:
 * Dashboard
 * Report Submission
 * Report Viewing
-* Basic Notifications
+* Notifications
 * AI Insight Summary
 
 Excluded from MVP:
 
-* Chat System
 * Donor Portal
 * Marketplace Features
-* Advanced Predictive Analytics
 * Multi-Tenant Administration
+* Advanced Predictive Analytics
+* Cross-Organization Intelligence
 
 ---
 
@@ -575,39 +610,44 @@ Excluded from MVP:
 
 ## Phase 1
 
-Single mobile application.
+Community Reporting Platform
 
-Single backend service.
-
-Single database.
+* Mobile application
+* Backend services
+* Basic AI insights
 
 ---
 
 ## Phase 2
 
-Expanded backend services.
+Community Intelligence Platform
 
-Dedicated AI services.
-
-Advanced analytics.
+* Risk detection
+* Recommendation engine
+* Impact trend analysis
 
 ---
 
 ## Phase 3
 
-Full Community Impact Intelligence Platform.
+Community Impact Intelligence Ecosystem
 
-Predictive impact modeling.
-
-Cross-organization collaboration ecosystem.
+* Predictive analytics
+* Geospatial intelligence
+* Cross-organization collaboration
+* Community forecasting
 
 ---
 
 # Version
 
-System Architecture v0.3
+System Architecture v0.4
+
+AI Intelligence Architecture Edition
 
 Created: June 2026
+
+Updated: June 2026
 
 ---
 
@@ -615,6 +655,6 @@ Created: June 2026
 
 * Product Vision
 * ADR-001 Mobile Platform Strategy
-* Domain Model
 * User Personas
+* Domain Model
 * Information Architecture
