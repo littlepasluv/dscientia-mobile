@@ -24,7 +24,7 @@ DscienTia Mobile is an AI-powered community impact intelligence platform designe
 * Volunteers
 * Researchers
 
-The application supports data collection, project monitoring, and impact analysis through a mobile-first experience.
+The application supports data collection, project monitoring, risk detection, and impact analysis through a mobile-first experience.
 
 ---
 
@@ -63,6 +63,17 @@ Primary responsibilities:
 
 ---
 
+## Researcher / Impact Analyst
+
+Primary responsibilities:
+
+* Analyze impact trends
+* Review AI-generated insights
+* Compare community outcomes
+* Export findings for research and policy development
+
+---
+
 # Navigation Structure
 
 ```text
@@ -72,11 +83,12 @@ Authentication
 ├── Register
 └── Forgot Password
 
-Home
+Main Application
 │
 ├── Dashboard
 ├── Reports
 ├── Projects
+├── AI Intelligence
 ├── Notifications
 └── Profile
 ```
@@ -87,17 +99,17 @@ Home
 
 ## Module 1: Authentication
 
-Purpose:
+### Purpose
 
 Provide secure user access.
 
-Screens:
+### Screens
 
 * Login Screen
 * Registration Screen
 * Forgot Password Screen
 
-Future Features:
+### Future Features
 
 * Social Login
 * Single Sign-On
@@ -107,28 +119,33 @@ Future Features:
 
 ## Module 2: Dashboard
 
-Purpose:
+### Purpose
 
 Provide users with a summary of activities and updates.
 
-Displayed Information:
+### Displayed Information
 
 * Recent reports
 * Assigned projects
 * Notifications
 * AI-generated insights
 
-Role-specific dashboards may vary.
+### Research Dashboard
+
+* Impact trends
+* Community comparisons
+* AI-generated summaries
+* Exportable analytics
+
+Role-specific dashboards may vary depending on permissions.
 
 ---
 
 ## Module 3: Report Management
 
-Purpose:
+### Purpose
 
 Allow users to create and manage field reports.
-
-Screens:
 
 ### Report List
 
@@ -163,11 +180,9 @@ Input Fields:
 
 ## Module 4: Project Management
 
-Purpose:
+### Purpose
 
 Track social initiatives and community programs.
-
-Screens:
 
 ### Project List
 
@@ -185,56 +200,30 @@ Displays:
 * Timeline
 * Assigned members
 * Progress indicators
+* Impact metrics
 
 ---
 
-## Module 5: Notifications
+## Module 5: AI Intelligence Center
 
-Purpose:
-
-Provide real-time communication and updates.
-
-Examples:
-
-* Report approved
-* Project updated
-* Community alert
-* AI-generated recommendations
-
----
-
-## Module 6: User Profile
-
-Purpose:
-
-Manage user information.
-
-Features:
-
-* Personal profile
-* Organization affiliation
-* Skills
-* Volunteer history
-
----
-
-# AI Intelligence Module
-
-## Purpose
+### Purpose
 
 Transform raw field data into actionable insights.
 
+This module represents the intelligence layer of DscienTia.
+
 ---
 
-## AI Insight Summary
+### AI Insight Summary
 
-Input:
+#### Input
 
 * Reports
 * Surveys
 * Project updates
+* Impact metrics
 
-Output:
+#### Output
 
 * Trend summary
 * Impact overview
@@ -242,37 +231,39 @@ Output:
 
 Example:
 
-Water-related incidents increased by 25% compared to last month.
+> Water-related incidents increased by 25% compared to last month.
 
 ---
 
-## Risk Detection
+### Risk Detection
 
-Purpose:
+#### Purpose
 
 Identify emerging issues before they become critical.
 
-Examples:
+#### Examples
 
 * Repeated reports in the same area
 * Escalating community concerns
 * Resource shortages
+* Declining participation rates
 
-Output:
+#### Output
 
-Risk Level:
+Risk Levels:
 
 * Low
 * Medium
 * High
+* Critical
 
 ---
 
-## Action Recommendations
+### Action Recommendations
 
-Purpose:
+#### Purpose
 
-Provide suggested next actions.
+Provide suggested next actions based on detected risks and impact trends.
 
 Example:
 
@@ -281,6 +272,58 @@ Water shortage
 
 Recommendation:
 Coordinate water distribution within 14 days.
+
+---
+
+### Impact Trends
+
+#### Purpose
+
+Analyze historical project and community data to identify long-term impact patterns.
+
+#### Outputs
+
+* Increasing trend
+* Stable trend
+* Declining trend
+
+#### Examples
+
+* Volunteer participation increasing
+* Community satisfaction decreasing
+* Program adoption remaining stable
+
+---
+
+## Module 6: Notifications
+
+### Purpose
+
+Provide real-time communication and updates.
+
+### Examples
+
+* Report approved
+* Project updated
+* Community alert
+* AI-generated recommendation available
+* High-risk community detected
+
+---
+
+## Module 7: User Profile
+
+### Purpose
+
+Manage user information.
+
+### Features
+
+* Personal profile
+* Organization affiliation
+* Skills
+* Volunteer history
+* Activity statistics
 
 ---
 
@@ -294,8 +337,10 @@ The first production-ready MVP will include:
 * Dashboard
 * Submit Report
 * View Reports
+* Projects
 * Notifications
 * Basic AI Insight Summary
+* Basic Risk Detection
 
 ## Excluded
 
@@ -304,6 +349,7 @@ The first production-ready MVP will include:
 * Advanced Analytics
 * Payment Features
 * Multi-Organization Administration
+* Predictive Analytics
 
 ---
 
@@ -357,6 +403,22 @@ AI Insights
 
 ---
 
+## Researcher Flow
+
+```text
+Login
+  ↓
+Dashboard
+  ↓
+AI Intelligence
+  ↓
+Impact Trends
+  ↓
+Recommendations
+```
+
+---
+
 # Offline-First Considerations
 
 The application should support:
@@ -374,26 +436,59 @@ This requirement is particularly important for users operating in remote areas w
 
 Potential future modules:
 
-* Research Analytics
-* Donor Reporting Portal
-* Community Marketplace
-* AI Chat Assistant
-* Predictive Impact Modeling
+## Research Analytics
+
+Advanced impact analysis for researchers and institutions.
+
+## Donor Reporting Portal
+
+Dedicated transparency and reporting portal.
+
+## Community Marketplace
+
+Local resource and opportunity exchange platform.
+
+## AI Chat Assistant
+
+Conversational assistant for project and community intelligence.
+
+## Predictive Impact Modeling
+
+Forecast future community risks and intervention outcomes.
+
+## Geospatial Intelligence
+
+Location-based risk mapping and visualization.
+
+---
+
+# AI Readiness
+
+This information architecture is designed to support:
+
+* AI Insight Generation
+* Community Risk Detection
+* Recommendation Generation
+* Impact Trend Analysis
+* Future Predictive Analytics
+
+These capabilities are delivered through the DscienTia AI Intelligence Layer.
 
 ---
 
 # Version
 
-Information Architecture v0.4
+Information Architecture v0.5
+
+AI Transformation Edition
 
 Created: June 2026
+
+Updated: June 2026
 
 Related Documents:
 
 * Product Vision
-* ADR-001 Mobile Platform Strategy
-* Domain Model
 * User Personas
-
-```
-```
+* Domain Model
+* ADR-001 Mobile Platform Strategy
