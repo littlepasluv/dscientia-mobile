@@ -5,6 +5,7 @@ static ThemeData lightTheme() {
 return ThemeData(
 useMaterial3: true,
 colorSchemeSeed: Colors.blue,
+scaffoldBackgroundColor: Colors.white,
 );
 }
 }
