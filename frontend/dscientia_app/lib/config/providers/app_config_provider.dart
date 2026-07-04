@@ -1,10 +1,17 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../app_config.dart';
 import '../env/environment.dart';
+import '../app_config.dart';
 
 final appConfigProvider = Provider<AppConfig>((ref) {
-  return const AppConfig(
-    environment: Environment.development,
+  const envName = String.fromEnvironment('APP_ENV');
+
+  final env = Environment.values.firstWhere(
+    (e) => e.name == envName,
+    orElse: () => Environment.production,
+  );
+
+  return AppConfig(
+    environment: env,
   );
 });

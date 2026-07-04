@@ -1,4 +1,4 @@
-import 'environment.dart';
+import 'env/environment.dart';
 
 class AppConfig {
 final Environment environment;

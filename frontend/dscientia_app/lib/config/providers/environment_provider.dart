@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'environment.dart';
+import '../env/environment.dart';
 
 final environmentProvider = Provider<Environment>((ref) {
-return Environment.development;
+  return Environment.development;
 });
