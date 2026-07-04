@@ -1,19 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../config/app_config.dart';
-import '../config/environment.dart';
+import 'providers/app_config_provider.dart';
 
 final dioProvider = Provider<Dio>((ref) {
-final config = AppConfig(
-environment: Environment.development,
-);
+  final config = ref.watch(appConfigProvider);
 
-return Dio(
-BaseOptions(
-baseUrl: config.apiBaseUrl,
-connectTimeout: const Duration(seconds: 30),
-receiveTimeout: const Duration(seconds: 30),
-),
-);
+  return Dio(
+    BaseOptions(
+      baseUrl: config.apiBaseUrl,
+      connectTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 30),
+    ),
+  );
 });
