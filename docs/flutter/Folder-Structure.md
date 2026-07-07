@@ -127,3 +127,22 @@ The folder structure is intentionally designed to support:
 * Enterprise-scale maintenance
 
 New features should extend the existing structure rather than introducing new architectural patterns.
+
+---
+
+## Bootstrap
+
+The bootstrap layer is responsible for application startup.
+
+Responsibilities include:
+
+- Initializing Flutter bindings
+- Loading environment configuration
+- Initializing local storage
+- Registering future services
+- Preparing dependency injection
+- Launching the application
+
+Current location:
+
+lib/bootstrap/
