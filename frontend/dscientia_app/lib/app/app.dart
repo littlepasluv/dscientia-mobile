@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../config/router/app_router.dart';
 import '../config/theme/app_theme.dart';
+import '../features/authentication/presentation/widgets/authentication_bootstrap.dart';
 
 class DscientiaApp extends ConsumerWidget {
   const DscientiaApp({super.key});
@@ -19,7 +20,7 @@ class DscientiaApp extends ConsumerWidget {
       scrollBehavior: const MaterialScrollBehavior(),
       routerConfig: router,
       builder: (context, child) {
-        return child!;
+        return AuthenticationBootstrap(child: child ?? const SizedBox.shrink());
       },
     );
   }

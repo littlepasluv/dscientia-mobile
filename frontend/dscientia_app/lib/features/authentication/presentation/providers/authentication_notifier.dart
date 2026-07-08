@@ -19,7 +19,7 @@ class AuthenticationNotifier extends Notifier<AuthenticationState> {
     return const AuthenticationState.initial();
   }
 
-  Future<void> checkCurrentSession() async {
+  Future<void> checkCurrentSession({bool silentFailure = false}) async {
     state = const AuthenticationState.loading();
 
     try {
@@ -32,6 +32,11 @@ class AuthenticationNotifier extends Notifier<AuthenticationState> {
 
       state = AuthenticationState.authenticated(session: session);
     } catch (error) {
+      if (silentFailure) {
+        state = const AuthenticationState.unauthenticated();
+        return;
+      }
+
       state = AuthenticationState.error(message: _messageFromError(error));
     }
   }
