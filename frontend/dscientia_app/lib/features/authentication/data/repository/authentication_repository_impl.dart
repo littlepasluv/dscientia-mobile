@@ -1,13 +1,18 @@
 import '../../domain/entities/auth_session.dart';
 import '../../domain/repositories/authentication_repository.dart';
+import '../datasource/authentication_local_datasource.dart';
 import '../datasource/authentication_remote_datasource.dart';
 import '../models/login_request.dart';
 import '../models/register_request.dart';
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
   final AuthenticationRemoteDataSource _remoteDataSource;
+  final AuthenticationLocalDataSource _localDataSource;
 
-  const AuthenticationRepositoryImpl(this._remoteDataSource);
+  const AuthenticationRepositoryImpl(
+    this._remoteDataSource,
+    this._localDataSource,
+  );
 
   @override
   Future<AuthSession> login({
@@ -17,6 +22,8 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     final sessionModel = await _remoteDataSource.login(
       LoginRequest(email: email, password: password),
     );
+
+    await _localDataSource.saveTokens(sessionModel.tokens);
 
     return sessionModel.toEntity();
   }
@@ -31,26 +38,47 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       RegisterRequest(fullName: fullName, email: email, password: password),
     );
 
+    await _localDataSource.saveTokens(sessionModel.tokens);
+
     return sessionModel.toEntity();
   }
 
   @override
   Future<void> logout() async {
-    await _remoteDataSource.logout();
+    try {
+      await _remoteDataSource.logout();
+    } finally {
+      await _localDataSource.clearTokens();
+    }
   }
 
   @override
   Future<AuthSession> refreshSession() async {
     final sessionModel = await _remoteDataSource.refreshSession();
 
+    await _localDataSource.saveTokens(sessionModel.tokens);
+
     return sessionModel.toEntity();
   }
 
   @override
   Future<AuthSession?> getCurrentSession() async {
+    final hasValidTokens = await _localDataSource.hasValidTokens();
+
+    if (!hasValidTokens) {
+      return null;
+    }
+
     final sessionModel = await _remoteDataSource.getCurrentSession();
 
-    return sessionModel?.toEntity();
+    if (sessionModel == null) {
+      await _localDataSource.clearTokens();
+      return null;
+    }
+
+    await _localDataSource.saveTokens(sessionModel.tokens);
+
+    return sessionModel.toEntity();
   }
 
   @override

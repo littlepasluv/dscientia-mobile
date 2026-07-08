@@ -1,6 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/network/dio_provider.dart';
+import '../../../../core/storage/secure_storage_provider.dart';
+import '../../data/datasource/authentication_local_datasource.dart';
+import '../../data/datasource/authentication_local_datasource_impl.dart';
 import '../../data/datasource/authentication_remote_datasource.dart';
 import '../../data/datasource/authentication_remote_datasource_impl.dart';
 import '../../data/repository/authentication_repository_impl.dart';
@@ -13,10 +16,19 @@ final authenticationRemoteDataSourceProvider =
       return AuthenticationRemoteDataSourceImpl(dio);
     });
 
+final authenticationLocalDataSourceProvider =
+    Provider<AuthenticationLocalDataSource>((ref) {
+      final secureStorage = ref.watch(secureStorageProvider);
+
+      return AuthenticationLocalDataSourceImpl(secureStorage);
+    });
+
 final authenticationRepositoryProvider = Provider<AuthenticationRepository>((
   ref,
 ) {
   final remoteDataSource = ref.watch(authenticationRemoteDataSourceProvider);
 
-  return AuthenticationRepositoryImpl(remoteDataSource);
+  final localDataSource = ref.watch(authenticationLocalDataSourceProvider);
+
+  return AuthenticationRepositoryImpl(remoteDataSource, localDataSource);
 });
