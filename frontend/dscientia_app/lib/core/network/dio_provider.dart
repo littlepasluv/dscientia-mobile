@@ -5,15 +5,13 @@ import '../../config/app_config.dart';
 import '../../config/env/environment.dart';
 
 final dioProvider = Provider<Dio>((ref) {
-final config = AppConfig(
-environment: Environment.development,
-);
+  final config = AppConfig(environment: Environment.development);
 
-return Dio(
-BaseOptions(
-baseUrl: config.apiBaseUrl,
-connectTimeout: const Duration(seconds: 30),
-receiveTimeout: const Duration(seconds: 30),
-),
-);
+  return Dio(
+    BaseOptions(
+      baseUrl: config.apiBaseUrl,
+      connectTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 30),
+    ),
+  );
 });
