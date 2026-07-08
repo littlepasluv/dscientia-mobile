@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:go_router/go_router.dart';
 import '../providers/authentication_notifier.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -22,10 +22,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _submit() async {
-    await ref.read(authenticationNotifierProvider.notifier).login(
-      email: _emailController.text.trim(),
-      password: _passwordController.text,
-    );
+    await ref
+        .read(authenticationNotifierProvider.notifier)
+        .login(
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+        );
   }
 
   @override
@@ -34,9 +36,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final isLoading = authState.isLoading;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sign in'),
-      ),
+      appBar: AppBar(title: const Text('Sign in')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -45,10 +45,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             children: [
               const Text(
                 'Welcome back to DscienTia',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               const Text(
@@ -77,12 +74,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 onPressed: isLoading ? null : _submit,
                 child: isLoading
                     ? const SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                  ),
-                )
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
                     : const Text('Sign in'),
               ),
               const SizedBox(height: 16),
@@ -90,17 +85,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 onPressed: isLoading
                     ? null
                     : () {
-                  Navigator.of(context).pushNamed('/register');
-                },
+                        context.push('/register');
+                      },
                 child: const Text('Create an account'),
               ),
               if (authState.hasError && authState.errorMessage != null) ...[
                 const SizedBox(height: 16),
                 Text(
                   authState.errorMessage!,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
                 ),
               ],
             ],

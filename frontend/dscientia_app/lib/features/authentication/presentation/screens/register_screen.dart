@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:go_router/go_router.dart';
 import '../providers/authentication_notifier.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
@@ -24,11 +24,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   }
 
   Future<void> _submit() async {
-    await ref.read(authenticationNotifierProvider.notifier).register(
-      fullName: _fullNameController.text.trim(),
-      email: _emailController.text.trim(),
-      password: _passwordController.text,
-    );
+    await ref
+        .read(authenticationNotifierProvider.notifier)
+        .register(
+          fullName: _fullNameController.text.trim(),
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+        );
   }
 
   @override
@@ -37,9 +39,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final isLoading = authState.isLoading;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Create account'),
-      ),
+      appBar: AppBar(title: const Text('Create account')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -48,15 +48,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             children: [
               const Text(
                 'Join DscienTia',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              const Text(
-                'Create an account to start using DscienTia.',
-              ),
+              const Text('Create an account to start using DscienTia.'),
               const SizedBox(height: 32),
               TextField(
                 controller: _fullNameController,
@@ -88,12 +83,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 onPressed: isLoading ? null : _submit,
                 child: isLoading
                     ? const SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                  ),
-                )
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
                     : const Text('Create account'),
               ),
               const SizedBox(height: 16),
@@ -101,17 +94,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 onPressed: isLoading
                     ? null
                     : () {
-                  Navigator.of(context).pop();
-                },
+                        context.go('/login');
+                      },
                 child: const Text('Already have an account? Sign in'),
               ),
               if (authState.hasError && authState.errorMessage != null) ...[
                 const SizedBox(height: 16),
                 Text(
                   authState.errorMessage!,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
                 ),
               ],
             ],
