@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -68,8 +69,9 @@ class DashboardScreen extends StatelessWidget {
                 description:
                     'Capture a local issue such as flooding, public safety, health risk, infrastructure damage, or community needs.',
                 buttonLabel: 'Create Risk Report',
-                onPressed: () =>
-                    _showComingSoonMessage(context, 'Community Risk Report'),
+                onPressed: () {
+                  context.push('/reports/new');
+                },
               ),
               const SizedBox(height: 24),
               const _RoadmapCard(),

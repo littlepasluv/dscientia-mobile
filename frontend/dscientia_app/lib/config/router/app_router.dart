@@ -4,6 +4,7 @@ import '../../features/dashboard/presentation/screens/dashboard_screen.dart';
 import '../../features/authentication/presentation/providers/authentication_notifier.dart';
 import '../../features/authentication/presentation/screens/login_screen.dart';
 import '../../features/authentication/presentation/screens/register_screen.dart';
+import '../../features/reports/presentation/screens/community_risk_report_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authenticationNotifierProvider);
@@ -40,6 +41,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/register',
         name: 'register',
         builder: (context, state) => const RegisterScreen(),
+      ),
+      GoRoute(
+        path: '/reports/new',
+        name: 'create-risk-report',
+        builder: (context, state) => const CommunityRiskReportScreen(),
       ),
     ],
   );
