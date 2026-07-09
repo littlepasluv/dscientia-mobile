@@ -60,7 +60,7 @@ class DashboardScreen extends StatelessWidget {
                     'Generate a structured insight from a community risk report, including summary, priority, suggested action, and ethical note.',
                 buttonLabel: 'Start AI Insight Flow',
                 onPressed: () {
-                  context.push('/reports/new');
+                  context.push('/ai-insights/demo');
                 },
               ),
               const SizedBox(height: 16),

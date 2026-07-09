@@ -21,6 +21,7 @@ void main() {
     expect(find.text('AI Risk Summary'), findsOneWidget);
     expect(find.text('Priority Assessment'), findsOneWidget);
     expect(find.text('Suggested Community Action'), findsOneWidget);
+    expect(find.text('Recommended Action Steps'), findsOneWidget);
     expect(find.text('Ethical AI Note'), findsOneWidget);
   });
 }

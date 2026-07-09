@@ -62,6 +62,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           );
         },
       ),
+      GoRoute(
+        path: '/ai-insights/demo',
+        name: 'ai-insight-demo',
+        builder: (context, state) {
+          return const AiInsightResultScreen(
+            report: CommunityRiskReportDraft.demo(),
+          );
+        },
+      ),
     ],
   );
 });

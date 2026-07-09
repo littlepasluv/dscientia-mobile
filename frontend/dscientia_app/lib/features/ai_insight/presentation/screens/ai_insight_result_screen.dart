@@ -1,52 +1,18 @@
 import 'package:flutter/material.dart';
 
 import '../../../reports/domain/entities/community_risk_report_draft.dart';
+import '../../domain/entities/ai_insight.dart';
+import '../../domain/services/mock_ai_insight_generator.dart';
 
 class AiInsightResultScreen extends StatelessWidget {
   final CommunityRiskReportDraft report;
 
   const AiInsightResultScreen({required this.report, super.key});
 
-  String get _priorityLabel {
-    switch (report.urgency.toLowerCase()) {
-      case 'high':
-        return 'High Priority';
-      case 'medium':
-        return 'Medium Priority';
-      default:
-        return 'Low Priority';
-    }
-  }
-
-  String get _mockSummary {
-    return 'DscienTia identified this report as a ${report.category.toLowerCase()} issue affecting ${report.location}. '
-        'The situation may require coordinated local response, documentation, and follow-up monitoring.';
-  }
-
-  String get _mockSuggestedAction {
-    switch (report.category.toLowerCase()) {
-      case 'flooding':
-        return 'Document affected locations, notify local community leaders, identify blocked drainage points, and prepare a short-term mobility and safety plan.';
-      case 'health risk':
-        return 'Collect basic incident details, identify affected groups, coordinate with local health volunteers, and prepare prevention messaging.';
-      case 'public safety':
-        return 'Record the issue location, identify immediate safety concerns, notify relevant local authorities, and create a short action log.';
-      case 'infrastructure':
-        return 'Capture photos or evidence, identify service disruption, prioritize repair urgency, and escalate to the responsible maintenance channel.';
-      case 'environment':
-        return 'Document the environmental impact, identify possible sources, involve community volunteers, and prepare mitigation steps.';
-      default:
-        return 'Validate the report, identify affected residents, assign a local follow-up owner, and prepare a practical response plan.';
-    }
-  }
-
-  String get _ethicalNote {
-    return 'This AI insight is a decision-support summary, not a final authority. Community leaders should verify facts, consider local context, and avoid exposing sensitive personal data.';
-  }
-
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final insight = const MockAiInsightGenerator().generate(report);
 
     return Scaffold(
       appBar: AppBar(title: const Text('AI Insight Result')),
@@ -57,7 +23,7 @@ class AiInsightResultScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               _InsightHero(
-                priorityLabel: _priorityLabel,
+                priorityLabel: insight.priorityLabel,
                 colorScheme: colorScheme,
               ),
               const SizedBox(height: 24),
@@ -66,26 +32,28 @@ class AiInsightResultScreen extends StatelessWidget {
               _InsightCard(
                 icon: Icons.summarize_outlined,
                 title: 'AI Risk Summary',
-                content: _mockSummary,
+                content: insight.summary,
               ),
               const SizedBox(height: 16),
               _InsightCard(
                 icon: Icons.priority_high_outlined,
                 title: 'Priority Assessment',
                 content:
-                    'Priority level: $_priorityLabel. This assessment is based on the selected urgency level and the type of community issue reported.',
+                    'Priority level: ${insight.priorityLabel}. ${insight.priorityRationale}',
               ),
               const SizedBox(height: 16),
               _InsightCard(
                 icon: Icons.task_alt_outlined,
                 title: 'Suggested Community Action',
-                content: _mockSuggestedAction,
+                content: insight.suggestedAction,
               ),
+              const SizedBox(height: 16),
+              _ActionStepsCard(insight: insight),
               const SizedBox(height: 16),
               _InsightCard(
                 icon: Icons.verified_user_outlined,
                 title: 'Ethical AI Note',
-                content: _ethicalNote,
+                content: insight.ethicalNote,
               ),
               const SizedBox(height: 24),
               FilledButton.icon(
@@ -93,7 +61,7 @@ class AiInsightResultScreen extends StatelessWidget {
                   Navigator.of(context).pop();
                 },
                 icon: const Icon(Icons.arrow_back),
-                label: const Text('Back to Report Form'),
+                label: const Text('Back'),
               ),
             ],
           ),
@@ -165,6 +133,46 @@ class _ReportContextCard extends StatelessWidget {
       title: 'Source Report',
       content:
           '${report.title}\n\nCategory: ${report.category}\nLocation: ${report.location}\nUrgency: ${report.urgency}\n\n${report.description}',
+    );
+  }
+}
+
+class _ActionStepsCard extends StatelessWidget {
+  final AiInsight insight;
+
+  const _ActionStepsCard({required this.insight});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Recommended Action Steps',
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            ...insight.actionSteps.map(
+              (step) => Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Icon(Icons.check_circle_outline, size: 20),
+                    const SizedBox(width: 8),
+                    Expanded(child: Text(step)),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
