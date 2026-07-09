@@ -1,24 +1,33 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../features/dashboard/presentation/screens/dashboard_screen.dart';
+
+import '../../features/ai_insight/presentation/screens/ai_insight_result_screen.dart';
 import '../../features/authentication/presentation/providers/authentication_notifier.dart';
 import '../../features/authentication/presentation/screens/login_screen.dart';
 import '../../features/authentication/presentation/screens/register_screen.dart';
-import '../../features/reports/presentation/screens/community_risk_report_screen.dart';
-import '../../features/ai_insight/presentation/screens/ai_insight_result_screen.dart';
+import '../../features/dashboard/presentation/screens/dashboard_screen.dart';
 import '../../features/reports/domain/entities/community_risk_report_draft.dart';
+import '../../features/reports/presentation/screens/community_risk_report_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authenticationNotifierProvider);
 
   return GoRouter(
-    initialLocation: '/login',
+    initialLocation: '/demo',
     redirect: (context, state) {
       final location = state.uri.path;
+
       final isAuthRoute = location == '/login' || location == '/register';
+
+      final isPublicDemoRoute =
+          location == '/demo' ||
+          location == '/reports/new' ||
+          location == '/ai-insights/demo' ||
+          location == '/ai-insights/result';
+
       final isAuthenticated = authState.isAuthenticated;
 
-      if (!isAuthenticated && !isAuthRoute) {
+      if (!isAuthenticated && !isAuthRoute && !isPublicDemoRoute) {
         return '/login';
       }
 
@@ -32,6 +41,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/',
         name: 'home',
+        builder: (context, state) => const DashboardScreen(),
+      ),
+      GoRoute(
+        path: '/demo',
+        name: 'demo',
         builder: (context, state) => const DashboardScreen(),
       ),
       GoRoute(
@@ -50,6 +64,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const CommunityRiskReportScreen(),
       ),
       GoRoute(
+        path: '/ai-insights/demo',
+        name: 'ai-insight-demo',
+        builder: (context, state) {
+          return const AiInsightResultScreen(
+            report: CommunityRiskReportDraft.demo(),
+          );
+        },
+      ),
+      GoRoute(
         path: '/ai-insights/result',
         name: 'ai-insight-result',
         builder: (context, state) {
@@ -59,15 +82,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             report: report is CommunityRiskReportDraft
                 ? report
                 : const CommunityRiskReportDraft.demo(),
-          );
-        },
-      ),
-      GoRoute(
-        path: '/ai-insights/demo',
-        name: 'ai-insight-demo',
-        builder: (context, state) {
-          return const AiInsightResultScreen(
-            report: CommunityRiskReportDraft.demo(),
           );
         },
       ),

@@ -58,7 +58,8 @@ void main() {
 
     await tester.pumpAndSettle();
 
-    expect(find.text('Welcome back to DscienTia'), findsOneWidget);
-    expect(find.text('Sign in'), findsWidgets);
+    expect(find.text('Community Resilience Dashboard'), findsOneWidget);
+    expect(find.text('AI Insight for Community Resilience'), findsOneWidget);
+    expect(find.text('Submit Community Risk Report'), findsOneWidget);
   });
 }
