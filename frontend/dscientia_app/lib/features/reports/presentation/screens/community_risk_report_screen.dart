@@ -1,3 +1,6 @@
+import 'package:go_router/go_router.dart';
+
+import '../../domain/entities/community_risk_report_draft.dart';
 import 'package:flutter/material.dart';
 
 class CommunityRiskReportScreen extends StatefulWidget {
@@ -43,28 +46,15 @@ class _CommunityRiskReportScreenState extends State<CommunityRiskReportScreen> {
       return;
     }
 
-    showDialog<void>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Risk report captured'),
-          content: Text(
-            'This report is ready for the next MVP step: AI Insight generation.\n\n'
-            'Title: ${_titleController.text.trim()}\n'
-            'Category: $_selectedCategory\n'
-            'Urgency: $_selectedUrgency',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Continue'),
-            ),
-          ],
-        );
-      },
+    final report = CommunityRiskReportDraft(
+      title: _titleController.text.trim(),
+      category: _selectedCategory,
+      location: _locationController.text.trim(),
+      description: _descriptionController.text.trim(),
+      urgency: _selectedUrgency,
     );
+
+    context.push('/ai-insights/result', extra: report);
   }
 
   String? _requiredValidator(String? value) {

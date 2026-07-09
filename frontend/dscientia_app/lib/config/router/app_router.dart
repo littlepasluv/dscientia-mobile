@@ -5,6 +5,8 @@ import '../../features/authentication/presentation/providers/authentication_noti
 import '../../features/authentication/presentation/screens/login_screen.dart';
 import '../../features/authentication/presentation/screens/register_screen.dart';
 import '../../features/reports/presentation/screens/community_risk_report_screen.dart';
+import '../../features/ai_insight/presentation/screens/ai_insight_result_screen.dart';
+import '../../features/reports/domain/entities/community_risk_report_draft.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authenticationNotifierProvider);
@@ -46,6 +48,19 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/reports/new',
         name: 'create-risk-report',
         builder: (context, state) => const CommunityRiskReportScreen(),
+      ),
+      GoRoute(
+        path: '/ai-insights/result',
+        name: 'ai-insight-result',
+        builder: (context, state) {
+          final report = state.extra;
+
+          return AiInsightResultScreen(
+            report: report is CommunityRiskReportDraft
+                ? report
+                : const CommunityRiskReportDraft.demo(),
+          );
+        },
       ),
     ],
   );
