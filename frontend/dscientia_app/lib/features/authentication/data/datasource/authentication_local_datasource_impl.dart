@@ -1,5 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
+import '../../../../core/storage/auth_token_storage_keys.dart';
 import '../models/auth_tokens_model.dart';
 import 'authentication_local_datasource.dart';
 
@@ -9,17 +9,19 @@ class AuthenticationLocalDataSourceImpl
 
   const AuthenticationLocalDataSourceImpl(this._secureStorage);
 
-  static const String _accessTokenKey = 'dscientia.auth.access_token';
-  static const String _refreshTokenKey = 'dscientia.auth.refresh_token';
-  static const String _expiresAtKey = 'dscientia.auth.expires_at';
-
   @override
   Future<void> saveTokens(AuthTokensModel tokens) async {
     await Future.wait([
-      _secureStorage.write(key: _accessTokenKey, value: tokens.accessToken),
-      _secureStorage.write(key: _refreshTokenKey, value: tokens.refreshToken),
       _secureStorage.write(
-        key: _expiresAtKey,
+        key: AuthTokenStorageKeys.accessToken,
+        value: tokens.accessToken,
+      ),
+      _secureStorage.write(
+        key: AuthTokenStorageKeys.refreshToken,
+        value: tokens.refreshToken,
+      ),
+      _secureStorage.write(
+        key: AuthTokenStorageKeys.expiresAt,
         value: tokens.expiresAt.toIso8601String(),
       ),
     ]);
@@ -28,9 +30,9 @@ class AuthenticationLocalDataSourceImpl
   @override
   Future<AuthTokensModel?> getTokens() async {
     final values = await Future.wait([
-      _secureStorage.read(key: _accessTokenKey),
-      _secureStorage.read(key: _refreshTokenKey),
-      _secureStorage.read(key: _expiresAtKey),
+      _secureStorage.read(key: AuthTokenStorageKeys.accessToken),
+      _secureStorage.read(key: AuthTokenStorageKeys.refreshToken),
+      _secureStorage.read(key: AuthTokenStorageKeys.expiresAt),
     ]);
 
     final accessToken = values[0];
@@ -58,9 +60,9 @@ class AuthenticationLocalDataSourceImpl
   @override
   Future<void> clearTokens() async {
     await Future.wait([
-      _secureStorage.delete(key: _accessTokenKey),
-      _secureStorage.delete(key: _refreshTokenKey),
-      _secureStorage.delete(key: _expiresAtKey),
+      _secureStorage.delete(key: AuthTokenStorageKeys.accessToken),
+      _secureStorage.delete(key: AuthTokenStorageKeys.refreshToken),
+      _secureStorage.delete(key: AuthTokenStorageKeys.expiresAt),
     ]);
   }
 
