@@ -40,9 +40,12 @@ final class MockAiInsightGenerator implements AiInsightGenerator
 
     private function buildNarrativeSummary(CommunityRiskReport $report, string $riskLevel): string
     {
+        $article = $riskLevel === 'elevated' ? 'an' : 'a';
+
         return sprintf(
-            'The submitted report from %s indicates a %s community resilience concern in %s. The issue is categorized as %s with %s urgency. This mock AI insight recommends structured follow-up, stakeholder coordination, and evidence-based prioritization before escalation.',
+            'The submitted report from %s indicates %s %s community resilience concern in %s. The issue is categorized as %s with %s urgency. This mock AI insight recommends structured follow-up, stakeholder coordination, and evidence-based prioritization before escalation.',
             $report->organization_name,
+            $article,
             $riskLevel,
             $report->location,
             $report->category,
