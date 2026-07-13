@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CommunityRiskReport extends Model
 {
@@ -26,5 +27,10 @@ class CommunityRiskReport extends Model
         return [
             'affected_people_count' => 'integer',
         ];
+    }
+
+    public function aiInsights(): HasMany
+    {
+        return $this->hasMany(AiInsight::class);
     }
 }
