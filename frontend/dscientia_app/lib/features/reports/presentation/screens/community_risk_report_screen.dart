@@ -1,25 +1,38 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../config/env/backend_mode_config.dart';
+import '../../../../config/env/dscientia_api_config.dart';
+import '../../../../core/network/dscientia_api_dio_provider.dart';
+import '../../../ai_insight/data/datasources/ai_insight_api_client.dart';
+import '../../../ai_insight/data/dtos/ai_insight_create_request.dart';
+import '../../../ai_insight/presentation/navigation/ai_insight_result_route_data.dart';
+import '../../data/datasources/community_risk_report_api_client.dart';
+import '../../data/dtos/community_risk_report_create_request.dart';
 import '../../domain/entities/community_risk_report_draft.dart';
-import 'package:flutter/material.dart';
 
-class CommunityRiskReportScreen extends StatefulWidget {
+class CommunityRiskReportScreen extends ConsumerStatefulWidget {
   const CommunityRiskReportScreen({super.key});
 
   @override
-  State<CommunityRiskReportScreen> createState() =>
+  ConsumerState<CommunityRiskReportScreen> createState() =>
       _CommunityRiskReportScreenState();
 }
 
-class _CommunityRiskReportScreenState extends State<CommunityRiskReportScreen> {
+class _CommunityRiskReportScreenState
+    extends ConsumerState<CommunityRiskReportScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final _titleController = TextEditingController();
   final _locationController = TextEditingController();
   final _descriptionController = TextEditingController();
+  final _affectedPeopleController = TextEditingController();
 
   String _selectedCategory = _categories.first;
   String _selectedUrgency = _urgencyLevels[1];
+  bool _isSubmitting = false;
+  String? _submitError;
 
   static const List<String> _categories = [
     'Flooding',
@@ -38,10 +51,11 @@ class _CommunityRiskReportScreenState extends State<CommunityRiskReportScreen> {
     _titleController.dispose();
     _locationController.dispose();
     _descriptionController.dispose();
+    _affectedPeopleController.dispose();
     super.dispose();
   }
 
-  void _submitReport() {
+  Future<void> _submitReport() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -54,7 +68,87 @@ class _CommunityRiskReportScreenState extends State<CommunityRiskReportScreen> {
       urgency: _selectedUrgency,
     );
 
-    context.push('/ai-insights/result', extra: report);
+    if (!BackendModeConfig.useBackendApi) {
+      context.push('/ai-insights/result', extra: report);
+      return;
+    }
+
+    setState(() {
+      _isSubmitting = true;
+      _submitError = null;
+    });
+
+    try {
+      final dio = ref.read(dscientiaApiDioProvider);
+      final reportClient = CommunityRiskReportApiClient(dio);
+      final aiInsightClient = AiInsightApiClient(dio);
+
+      final createdReport = await reportClient.createReport(
+        CommunityRiskReportCreateRequest(
+          organizationName: report.title,
+          reporterName: 'DscienTia Flutter MVP',
+          category: _toApiCategory(report.category),
+          location: report.location,
+          urgency: _toApiUrgency(report.urgency),
+          description: report.description,
+          affectedPeopleCount: _parseAffectedPeopleCount(),
+          sourceUrl: 'https://app.dscientia.dev',
+        ),
+      );
+
+      final backendInsight = await aiInsightClient.generateInsight(
+        AiInsightCreateRequest(reportId: createdReport.id),
+      );
+
+      if (!mounted) {
+        return;
+      }
+
+      context.push(
+        '/ai-insights/result',
+        extra: AiInsightResultRouteData(
+          report: report,
+          backendInsight: backendInsight,
+        ),
+      );
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _submitError =
+            'Unable to connect to DscienTia API. Make sure Laravel is running at ${DscientiaApiConfig.baseUrl}.';
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSubmitting = false;
+        });
+      }
+    }
+  }
+
+  String _toApiCategory(String value) {
+    return value
+        .trim()
+        .toLowerCase()
+        .replaceAll(RegExp(r'[^a-z0-9]+'), '_')
+        .replaceAll(RegExp(r'^_+|_+$'), '');
+  }
+
+  String _toApiUrgency(String value) {
+    return value.trim().toLowerCase();
+  }
+
+  int? _parseAffectedPeopleCount() {
+    final value = _affectedPeopleController.text.trim();
+
+    if (value.isEmpty) {
+      return null;
+    }
+
+    return int.tryParse(value);
   }
 
   String? _requiredValidator(String? value) {
@@ -65,9 +159,38 @@ class _CommunityRiskReportScreenState extends State<CommunityRiskReportScreen> {
     return null;
   }
 
+  String? _descriptionValidator(String? value) {
+    final requiredError = _requiredValidator(value);
+
+    if (requiredError != null) {
+      return requiredError;
+    }
+
+    if (value!.trim().length < 20) {
+      return 'Please provide at least 20 characters.';
+    }
+
+    return null;
+  }
+
+  String? _affectedPeopleValidator(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return null;
+    }
+
+    final parsed = int.tryParse(value.trim());
+
+    if (parsed == null || parsed < 0) {
+      return 'Please enter a valid non-negative number.';
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final backendModeEnabled = BackendModeConfig.useBackendApi;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Community Risk Report')),
@@ -105,7 +228,9 @@ class _CommunityRiskReportScreenState extends State<CommunityRiskReportScreen> {
                         ),
                         const SizedBox(height: 12),
                         Text(
-                          'Capture a local issue so DscienTia can prepare an AI-powered resilience insight in the next MVP step.',
+                          backendModeEnabled
+                              ? 'Backend mode is enabled. This report will be sent to the Laravel API before generating an AI insight.'
+                              : 'Capture a local issue so DscienTia can prepare an AI-powered resilience insight in the next MVP step.',
                           style: Theme.of(context).textTheme.bodyLarge
                               ?.copyWith(color: colorScheme.onPrimaryContainer),
                         ),
@@ -114,6 +239,19 @@ class _CommunityRiskReportScreenState extends State<CommunityRiskReportScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
+                if (_submitError != null) ...[
+                  Card(
+                    color: colorScheme.errorContainer,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Text(
+                        _submitError!,
+                        style: TextStyle(color: colorScheme.onErrorContainer),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                ],
                 TextFormField(
                   controller: _titleController,
                   decoration: const InputDecoration(
@@ -160,6 +298,18 @@ class _CommunityRiskReportScreenState extends State<CommunityRiskReportScreen> {
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
+                  controller: _affectedPeopleController,
+                  decoration: const InputDecoration(
+                    labelText: 'Estimated affected people',
+                    hintText: 'Example: 120',
+                    border: OutlineInputBorder(),
+                  ),
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.next,
+                  validator: _affectedPeopleValidator,
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
                   controller: _descriptionController,
                   decoration: const InputDecoration(
                     labelText: 'Description',
@@ -170,7 +320,7 @@ class _CommunityRiskReportScreenState extends State<CommunityRiskReportScreen> {
                   ),
                   minLines: 5,
                   maxLines: 8,
-                  validator: _requiredValidator,
+                  validator: _descriptionValidator,
                 ),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<String>(
@@ -197,13 +347,22 @@ class _CommunityRiskReportScreenState extends State<CommunityRiskReportScreen> {
                 ),
                 const SizedBox(height: 24),
                 FilledButton.icon(
-                  onPressed: _submitReport,
-                  icon: const Icon(Icons.auto_awesome_outlined),
-                  label: const Text('Prepare AI Insight'),
+                  onPressed: _isSubmitting ? null : _submitReport,
+                  icon: _isSubmitting
+                      ? const SizedBox.square(
+                          dimension: 18,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.auto_awesome_outlined),
+                  label: Text(
+                    _isSubmitting ? 'Generating...' : 'Prepare AI Insight',
+                  ),
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  'MVP note: this form currently stores the report only in the UI flow. Backend persistence will be added in the Laravel API phase.',
+                  backendModeEnabled
+                      ? 'MVP note: backend mode is active for local API testing. The public web demo can remain in local mock mode.'
+                      : 'MVP note: this form currently uses local mock behavior. Backend persistence can be enabled with DSCIENTIA_USE_BACKEND_API=true.',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],

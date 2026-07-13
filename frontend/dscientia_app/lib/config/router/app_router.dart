@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/ai_insight/presentation/navigation/ai_insight_result_route_data.dart';
 import '../../features/ai_insight/presentation/screens/ai_insight_result_screen.dart';
 import '../../features/authentication/presentation/providers/authentication_notifier.dart';
 import '../../features/authentication/presentation/screens/login_screen.dart';
@@ -76,11 +77,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/ai-insights/result',
         name: 'ai-insight-result',
         builder: (context, state) {
-          final report = state.extra;
+          final extra = state.extra;
+
+          if (extra is AiInsightResultRouteData) {
+            return AiInsightResultScreen(
+              report: extra.report,
+              backendInsight: extra.backendInsight,
+            );
+          }
 
           return AiInsightResultScreen(
-            report: report is CommunityRiskReportDraft
-                ? report
+            report: extra is CommunityRiskReportDraft
+                ? extra
                 : const CommunityRiskReportDraft.demo(),
           );
         },
