@@ -11,7 +11,5 @@ final appConfigProvider = Provider<AppConfig>((ref) {
     orElse: () => Environment.production,
   );
 
-  return AppConfig(
-    environment: env,
-  );
+  return AppConfig(environment: env);
 });

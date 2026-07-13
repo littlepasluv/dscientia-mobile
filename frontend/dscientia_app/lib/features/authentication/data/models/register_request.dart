@@ -10,10 +10,6 @@ class RegisterRequest {
   });
 
   Map<String, dynamic> toJson() {
-    return {
-      'full_name': fullName,
-      'email': email,
-      'password': password,
-    };
+    return {'full_name': fullName, 'email': email, 'password': password};
   }
 }

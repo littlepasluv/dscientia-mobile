@@ -7,9 +7,5 @@ import 'bootstrap/app_bootstrap.dart';
 Future<void> main() async {
   await AppBootstrap.initialize();
 
-  runApp(
-    const ProviderScope(
-      child: DscientiaApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: DscientiaApp()));
 }

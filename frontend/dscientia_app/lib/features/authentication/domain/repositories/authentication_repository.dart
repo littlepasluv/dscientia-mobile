@@ -1,10 +1,7 @@
 import '../entities/auth_session.dart';
 
 abstract class AuthenticationRepository {
-  Future<AuthSession> login({
-    required String email,
-    required String password,
-  });
+  Future<AuthSession> login({required String email, required String password});
 
   Future<AuthSession> register({
     required String fullName,
@@ -18,9 +15,7 @@ abstract class AuthenticationRepository {
 
   Future<AuthSession?> getCurrentSession();
 
-  Future<void> forgotPassword({
-    required String email,
-  });
+  Future<void> forgotPassword({required String email});
 
   Future<void> resetPassword({
     required String token,

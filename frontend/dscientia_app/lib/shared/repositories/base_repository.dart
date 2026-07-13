@@ -1,3 +1,3 @@
 abstract class BaseRepository {
-const BaseRepository();
+  const BaseRepository();
 }

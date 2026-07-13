@@ -1,6 +1,1 @@
-enum ProviderStatus {
-initial,
-loading,
-success,
-error,
-}
+enum ProviderStatus { initial, loading, success, error }

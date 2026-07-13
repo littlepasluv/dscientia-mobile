@@ -1,10 +1,10 @@
 class ApiException implements Exception {
-final String message;
+  final String message;
 
-ApiException(this.message);
+  ApiException(this.message);
 
-@override
-String toString() {
-return message;
-}
+  @override
+  String toString() {
+    return message;
+  }
 }
