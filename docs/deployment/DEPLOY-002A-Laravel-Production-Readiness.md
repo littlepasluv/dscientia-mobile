@@ -63,10 +63,6 @@ Local development origins are also allowed in the default local config.
 
 Production can narrow this using:
 
-    DSIENTIA_CORS_ALLOWED_ORIGINS
-
-Correct key:
-
     DSCIENTIA_CORS_ALLOWED_ORIGINS
 
 ## AI Provider Decision
