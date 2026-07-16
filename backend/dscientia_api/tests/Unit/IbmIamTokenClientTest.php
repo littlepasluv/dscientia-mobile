@@ -2,12 +2,11 @@
 
 namespace Tests\Unit;
 
+use App\Exceptions\WatsonxProviderException;
 use App\Services\Watsonx\IbmIamTokenClient;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
-use LogicException;
 use Tests\TestCase;
-use UnexpectedValueException;
 
 class IbmIamTokenClientTest extends TestCase
 {
@@ -22,6 +21,8 @@ class IbmIamTokenClientTest extends TestCase
             'ai.watsonx.iam_url' => 'https://iam.cloud.ibm.com/identity/token',
             'ai.watsonx.connect_timeout' => 10,
             'ai.watsonx.timeout' => 30,
+            'ai.watsonx.retry_attempts' => 3,
+            'ai.watsonx.retry_sleep_ms' => 0,
         ]);
     }
 
@@ -30,51 +31,65 @@ class IbmIamTokenClientTest extends TestCase
         Http::fake([
             'https://iam.cloud.ibm.com/identity/token' => Http::response([
                 'access_token' => 'test-iam-access-token',
-                'token_type' => 'Bearer',
                 'expires_in' => 3600,
             ]),
         ]);
 
-        $accessToken = (new IbmIamTokenClient)->accessToken();
+        $accessToken = $this->app
+            ->make(IbmIamTokenClient::class)
+            ->accessToken();
 
         $this->assertSame(
             'test-iam-access-token',
             $accessToken,
         );
 
-        Http::assertSent(function (Request $request): bool {
-            $contentType = $request->header('Content-Type')[0] ?? '';
-
-            return $request->method() === 'POST'
-                && $request->url()
+        Http::assertSent(
+            function (Request $request): bool {
+                return $request->url()
                     === 'https://iam.cloud.ibm.com/identity/token'
-                && $request['grant_type']
-                    === 'urn:ibm:params:oauth:grant-type:apikey'
-                && $request['apikey'] === 'test-api-key'
-                && str_starts_with(
-                    $contentType,
-                    'application/x-www-form-urlencoded',
-                );
-        });
+                    && $request->method() === 'POST'
+                    && $request['grant_type']
+                        === 'urn:ibm:params:oauth:grant-type:apikey'
+                    && $request['apikey'] === 'test-api-key';
+            },
+        );
 
         Http::assertSentCount(1);
     }
 
-    public function test_it_fails_before_request_when_api_key_is_missing(): void
+    public function test_it_rejects_missing_api_key_without_sending_request(): void
     {
-        config()->set('ai.watsonx.api_key', '');
-
-        Http::fake();
+        config()->set(
+            'ai.watsonx.api_key',
+            '',
+        );
 
         try {
-            (new IbmIamTokenClient)->accessToken();
+            $this->app
+                ->make(IbmIamTokenClient::class)
+                ->accessToken();
 
             $this->fail(
-                'Expected a LogicException for a missing API key.'
+                'Expected WatsonxProviderException.',
             );
-        } catch (LogicException $exception) {
+        } catch (WatsonxProviderException $exception) {
             $this->assertSame(
-                'WATSONX_API_KEY is not configured.',
+                'iam_token_exchange',
+                $exception->operation,
+            );
+
+            $this->assertSame(
+                'missing_api_key',
+                $exception->errorCode,
+            );
+
+            $this->assertFalse(
+                $exception->retryable,
+            );
+
+            $this->assertSame(
+                'AI insight generation is temporarily unavailable.',
                 $exception->getMessage(),
             );
         }
@@ -86,19 +101,124 @@ class IbmIamTokenClientTest extends TestCase
     {
         Http::fake([
             'https://iam.cloud.ibm.com/identity/token' => Http::response([
-                'token_type' => 'Bearer',
                 'expires_in' => 3600,
             ]),
         ]);
 
-        $this->expectException(
-            UnexpectedValueException::class
+        try {
+            $this->app
+                ->make(IbmIamTokenClient::class)
+                ->accessToken();
+
+            $this->fail(
+                'Expected WatsonxProviderException.',
+            );
+        } catch (WatsonxProviderException $exception) {
+            $this->assertSame(
+                'iam_token_exchange',
+                $exception->operation,
+            );
+
+            $this->assertSame(
+                'missing_access_token',
+                $exception->errorCode,
+            );
+
+            $this->assertFalse(
+                $exception->retryable,
+            );
+
+            $this->assertSame(
+                'AI insight generation is temporarily unavailable.',
+                $exception->getMessage(),
+            );
+        }
+
+        Http::assertSentCount(1);
+    }
+
+    public function test_it_retries_transient_iam_failure(): void
+    {
+        Http::fake([
+            'https://iam.cloud.ibm.com/identity/token' => Http::sequence()
+                ->push(
+                    [
+                        'error' => 'temporarily unavailable',
+                    ],
+                    503,
+                )
+                ->push([
+                    'access_token' => 'test-iam-access-token',
+                ]),
+        ]);
+
+        $accessToken = $this->app
+            ->make(IbmIamTokenClient::class)
+            ->accessToken();
+
+        $this->assertSame(
+            'test-iam-access-token',
+            $accessToken,
         );
 
-        $this->expectExceptionMessage(
-            'IBM IAM response did not contain a valid access_token.'
-        );
+        Http::assertSentCount(2);
+    }
 
-        (new IbmIamTokenClient)->accessToken();
+    public function test_it_does_not_retry_non_retryable_iam_error(): void
+    {
+        Http::fake([
+            'https://iam.cloud.ibm.com/identity/token' => Http::response(
+                [
+                    'error' => 'sensitive-upstream-detail',
+                ],
+                401,
+            ),
+        ]);
+
+        try {
+            $this->app
+                ->make(IbmIamTokenClient::class)
+                ->accessToken();
+
+            $this->fail(
+                'Expected WatsonxProviderException.',
+            );
+        } catch (WatsonxProviderException $exception) {
+            $this->assertSame(
+                'iam_token_exchange',
+                $exception->operation,
+            );
+
+            $this->assertSame(
+                'http_failure',
+                $exception->errorCode,
+            );
+
+            $this->assertSame(
+                401,
+                $exception->statusCode,
+            );
+
+            $this->assertFalse(
+                $exception->retryable,
+            );
+
+            $this->assertSame(
+                'AI insight generation is temporarily unavailable.',
+                $exception->getMessage(),
+            );
+
+            $this->assertStringNotContainsString(
+                'sensitive-upstream-detail',
+                $exception->getMessage(),
+            );
+
+            $this->assertStringNotContainsString(
+                'test-api-key',
+                $exception->getMessage(),
+            );
+        }
+
+        Http::assertSentCount(1);
     }
 }

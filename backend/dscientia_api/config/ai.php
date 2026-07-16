@@ -37,6 +37,21 @@ return [
             30,
         ),
 
+        'retry_attempts' => max(
+            1,
+            (int) env('WATSONX_RETRY_ATTEMPTS', 3),
+        ),
+
+        'retry_sleep_ms' => max(
+            0,
+            (int) env('WATSONX_RETRY_SLEEP_MS', 250),
+        ),
+
+        'fallback_to_mock' => filter_var(
+            env('WATSONX_FALLBACK_TO_MOCK', true),
+            FILTER_VALIDATE_BOOL,
+        ),
+
         'max_tokens' => (int) env(
             'WATSONX_MAX_TOKENS',
             600,
