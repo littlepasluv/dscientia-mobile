@@ -298,7 +298,7 @@ WATSONX_URL=
 
 ## Backend
 
-Example:
+Local development example only. Do not use these values in staging or production.
 
 ```env
 APP_ENV=local
@@ -307,8 +307,8 @@ DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
 DB_PORT=5432
 DB_DATABASE=dscientia_dev
-DB_USERNAME=postgres
-DB_PASSWORD=password
+DB_USERNAME=your_local_postgres_user
+DB_PASSWORD=your_local_postgres_password
 ```
 
 ---

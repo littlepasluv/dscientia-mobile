@@ -1,0 +1,147 @@
+============================================================
+DscienTia MVP-014 Production Smoke Test
+Run ID:       20260714T141411Z
+Landing URL:  https://www.dscientia.dev
+Flutter URL:  https://app.dscientia.dev
+API base:     https://api.dscientia.dev/api
+============================================================
+
+PASS: Public landing page is reachable
+PASS: Flutter Web application is reachable
+PASS: GET /api/health returned HTTP 200
+Health response:
+{
+  "data": {
+    "status": "ok",
+    "service": "dscientia-api",
+    "version": "0.1.0"
+  }
+}
+PASS: API health response reports OK
+
+Report request payload:
+{
+  "title": "MVP-014 production smoke test 20260714T141411Z",
+  "organization_name": "DscienTia",
+  "category": "Infrastructure",
+  "location": "Magelang, Central Java",
+  "description": "Synthetic production smoke-test report. This record can be retained as deployment verification evidence.",
+  "urgency": "medium"
+}
+PASS: POST /api/reports returned HTTP 201
+
+Report response:
+{
+  "data": {
+    "id": 6,
+    "organization_name": "DscienTia",
+    "reporter_name": null,
+    "category": "Infrastructure",
+    "location": "Magelang, Central Java",
+    "urgency": "medium",
+    "description": "Synthetic production smoke-test report. This record can be retained as deployment verification evidence.",
+    "affected_people_count": null,
+    "status": "open",
+    "source_url": null,
+    "created_at": "2026-07-14T14:14:14+00:00",
+    "updated_at": "2026-07-14T14:14:14+00:00"
+  }
+}
+PASS: Production report created with ID 6
+PASS: GET /api/reports/6 returned HTTP 200
+
+Persisted report response:
+{
+  "data": {
+    "id": 6,
+    "organization_name": "DscienTia",
+    "reporter_name": null,
+    "category": "Infrastructure",
+    "location": "Magelang, Central Java",
+    "urgency": "medium",
+    "description": "Synthetic production smoke-test report. This record can be retained as deployment verification evidence.",
+    "affected_people_count": null,
+    "status": "open",
+    "source_url": null,
+    "created_at": "2026-07-14T14:14:14+00:00",
+    "updated_at": "2026-07-14T14:14:14+00:00"
+  }
+}
+PASS: Created report is retrievable from production storage
+PASS: POST /api/ai-insights returned HTTP 201
+
+AI insight response:
+{
+  "data": {
+    "id": 6,
+    "report_id": 6,
+    "insight_type": "community_risk_summary",
+    "risk_level": "medium",
+    "narrative_summary": "The submitted report from DscienTia indicates a medium community resilience concern in Magelang, Central Java. The issue is categorized as Infrastructure with medium urgency. This mock AI insight recommends structured follow-up, stakeholder coordination, and evidence-based prioritization before escalation.",
+    "summary_points": [
+      "Detected risk level: medium",
+      "Reported category: Infrastructure",
+      "Reported location: Magelang, Central Java",
+      "Reported urgency: medium",
+      "Estimated affected people: 0"
+    ],
+    "recommended_actions": [
+      "Monitor the situation and request supporting documentation.",
+      "Group this report with similar community needs for prioritization.",
+      "Schedule follow-up review with relevant stakeholders."
+    ],
+    "confidence_score": 0.72,
+    "model_provider": "mock",
+    "model_name": "dscientia-local-mock-v0.1",
+    "status": "completed",
+    "created_at": "2026-07-14T14:14:14+00:00",
+    "updated_at": "2026-07-14T14:14:14+00:00"
+  }
+}
+PASS: AI insight created with ID 6
+PASS: Expected production AI provider is active: mock
+PASS: AI model metadata is present: dscientia-local-mock-v0.1
+PASS: AI insight completed successfully
+PASS: AI insight includes risk level: medium
+PASS: GET /api/ai-insights/6 returned HTTP 200
+
+Persisted AI insight response:
+{
+  "data": {
+    "id": 6,
+    "report_id": 6,
+    "insight_type": "community_risk_summary",
+    "risk_level": "medium",
+    "narrative_summary": "The submitted report from DscienTia indicates a medium community resilience concern in Magelang, Central Java. The issue is categorized as Infrastructure with medium urgency. This mock AI insight recommends structured follow-up, stakeholder coordination, and evidence-based prioritization before escalation.",
+    "summary_points": [
+      "Detected risk level: medium",
+      "Reported category: Infrastructure",
+      "Reported location: Magelang, Central Java",
+      "Reported urgency: medium",
+      "Estimated affected people: 0"
+    ],
+    "recommended_actions": [
+      "Monitor the situation and request supporting documentation.",
+      "Group this report with similar community needs for prioritization.",
+      "Schedule follow-up review with relevant stakeholders."
+    ],
+    "confidence_score": 0.72,
+    "model_provider": "mock",
+    "model_name": "dscientia-local-mock-v0.1",
+    "status": "completed",
+    "created_at": "2026-07-14T14:14:14+00:00",
+    "updated_at": "2026-07-14T14:14:14+00:00"
+  }
+}
+PASS: Created AI insight is retrievable from production storage
+
+============================================================
+MVP-014 AUTOMATED SMOKE TEST PASSED
+
+Report ID:       6
+AI insight ID:   6
+Provider:        mock
+Model:           dscientia-local-mock-v0.1
+Insight status:  completed
+Risk level:      medium
+============================================================
