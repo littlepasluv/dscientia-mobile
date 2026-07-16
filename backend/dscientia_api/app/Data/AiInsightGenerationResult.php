@@ -13,8 +13,7 @@ final readonly class AiInsightGenerationResult
         public string $modelProvider,
         public string $modelName,
         public string $status = 'completed',
-    ) {
-    }
+    ) {}
 
     public function toModelAttributes(): array
     {

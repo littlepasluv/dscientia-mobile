@@ -13,8 +13,7 @@ class AiInsightController extends Controller
 {
     public function __construct(
         private readonly AiInsightGenerator $aiInsightGenerator,
-    ) {
-    }
+    ) {}
 
     public function store(StoreAiInsightRequest $request)
     {

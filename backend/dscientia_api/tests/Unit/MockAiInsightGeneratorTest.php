@@ -21,7 +21,7 @@ class MockAiInsightGeneratorTest extends TestCase
             'source_url' => 'https://app.dscientia.dev',
         ]);
 
-        $result = (new MockAiInsightGenerator())->generate($report);
+        $result = (new MockAiInsightGenerator)->generate($report);
 
         $this->assertSame('elevated', $result->riskLevel);
         $this->assertSame('mock', $result->modelProvider);
