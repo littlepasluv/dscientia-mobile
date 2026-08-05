@@ -1,0 +1,16 @@
+MVP-015E Mock Insight Verification
+=================================
+
+HTTP status                  : 200
+Insight ID                   : 4
+Report ID                    : 4
+Insight type                 : community_risk_summary
+Risk level                   : medium
+Model provider               : mock
+Model name                   : dscientia-local-mock-v0.1
+Status                       : completed
+Confidence score             : 0.72
+IBM network request          : NO
+Response contract            : PASS
+
+Mock insight verification completed successfully.

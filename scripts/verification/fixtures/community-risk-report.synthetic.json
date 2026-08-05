@@ -1,0 +1,10 @@
+{
+  "organization_name": "DscienTia Verification Lab",
+  "reporter_name": "Synthetic Test Runner",
+  "category": "community_resilience",
+  "location": "Synthetic Community Zone A",
+  "urgency": "medium",
+  "description": "A fictional community reported temporary disruption to safe water access after simulated infrastructure damage. Approximately seventy-five residents may require coordinated assessment, verification of available resources, and prioritization of non-emergency support. This report contains no real people, organizations, incidents, or personally identifiable information.",
+  "affected_people_count": 75,
+  "status": "open"
+}

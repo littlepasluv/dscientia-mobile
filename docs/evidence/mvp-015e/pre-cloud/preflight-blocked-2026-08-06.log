@@ -1,0 +1,18 @@
+MVP-015E Controlled Verification Preflight
+=========================================
+
+Environment is local           : PASS    (local)
+Provider is watsonx            : BLOCKED (mock)
+Mock fallback disabled         : BLOCKED (enabled)
+IBM Cloud API key              : BLOCKED (missing)
+watsonx project ID             : BLOCKED (missing)
+watsonx base URL               : PASS    (configured with HTTPS)
+IBM IAM URL                    : PASS    (configured with HTTPS)
+watsonx API version            : PASS    (configured)
+watsonx model ID               : PASS    (configured)
+
+Ready for IBM request          : NO
+Network request performed      : NO
+Secret values displayed        : NO
+
+This is expected until controlled local credentials are configured.
