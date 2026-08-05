@@ -1,394 +1,349 @@
 # DscienTia
 
-🚀 IBM AI Builders Challenge 2026 Project
+**AI-assisted social data platform for community resilience and evidence-based decision-making**
 
-**AI-Powered Community Impact Intelligence Platform**
+Built for the **IBM AI Builders Challenge 2026**.
 
-Transforming community reports into actionable social impact insights through AI-driven intelligence.
+DscienTia transforms community-generated reports into structured risk assessments, concise summaries, and recommended actions for NGOs, community leaders, social-impact organizations, and researchers.
 
----
-
-## Overview
-
-DscienTia is an AI-powered community impact intelligence platform designed to help NGOs, foundations, social enterprises, community leaders, volunteers, and researchers collect, analyze, and act upon community data more effectively.
-
-The platform combines mobile-first field reporting with artificial intelligence to transform raw community observations into actionable insights, risk assessments, and recommendations that support data-driven decision-making.
+> Current status: the Flutter application and Laravel API are deployed, the mock AI workflow is verified, the IBM watsonx provider implementation is complete, and controlled live watsonx verification is pending approved IBM Cloud access.
 
 ---
 
-## Vision
+## Project Overview
 
-To empower communities and organizations with ethical AI-driven intelligence that enables better social impact, resilience, and sustainable development.
+Many social-impact organizations still rely on fragmented reports, spreadsheets, messaging apps, and manual follow-up. This makes it difficult to identify emerging risks, compare needs across communities, and prioritize interventions consistently.
 
----
+DscienTia provides a mobile-first reporting and decision-support workflow that helps organizations:
 
-## Mission
+- collect structured community reports;
+- convert observations into consistent analytical records;
+- classify urgency and community risk;
+- generate concise summaries and recommended actions;
+- preserve evidence for monitoring, evaluation, and research;
+- support more transparent and data-informed decisions.
 
-DscienTia aims to:
-
-* Simplify community data collection
-* Improve project monitoring and evaluation
-* Detect emerging community risks
-* Generate actionable recommendations
-* Support evidence-based decision making
-* Increase transparency and accountability in social impact programs
+DscienTia is not a clinical, diagnostic, or autonomous decision-making system. It is an AI-assisted social-data and community-resilience platform designed to support human judgment.
 
 ---
 
-# Problem Statement
+## Social Data Science Relevance
 
-Many social impact organizations face challenges such as:
+DscienTia explores how social data can be collected, structured, interpreted, and governed responsibly.
 
-* Fragmented field reports
-* Manual monitoring processes
-* Delayed decision-making
-* Limited visibility into emerging risks
-* Difficulty measuring long-term impact
-* Lack of data-driven intervention planning
+The project connects software engineering with key Social Data Science questions:
 
-As a result, organizations often react too late to community issues and struggle to maximize program effectiveness.
+- How should community observations be transformed into analyzable data?
+- How can data quality, missing context, and representation affect conclusions?
+- How should AI-generated recommendations communicate uncertainty?
+- How can privacy, consent, accountability, and human oversight be built into the workflow?
+- How can community-level data support NGOs and researchers without overstating what the evidence proves?
 
----
-
-# Solution
-
-DscienTia provides a unified platform that enables:
-
-### Community Data Collection
-
-* Field reports
-* Community observations
-* Project updates
-* Survey results
-* Photo documentation
-
-### Impact Monitoring
-
-* Project tracking
-* Community monitoring
-* Progress measurement
-* Outcome evaluation
-
-### AI Intelligence Layer
-
-* AI Insight Summaries
-* Community Risk Detection
-* Recommendation Generation
-* Impact Trend Analysis
-* Decision Support Intelligence
+This framing makes DscienTia both a technical product and a practical research portfolio project.
 
 ---
 
-# Target Users
+## Current Working Scope
 
-### NGOs & Foundations
+### Implemented and verified
 
-Monitor projects, evaluate impact, and make informed decisions.
+- Flutter web application foundation
+- Laravel 12 REST API
+- Community risk report creation and retrieval
+- Structured AI insight API
+- Provider abstraction for mock and IBM watsonx
+- Synthetic-data verification workflow
+- Safe fallback and sanitized error handling
+- Preflight gate for controlled watsonx verification
+- Production smoke testing with the mock provider
+- Deployment documentation and evidence logs
 
-### Community Leaders
+### Current AI behavior
 
-Track local issues and coordinate interventions.
+The verified production workflow currently uses the local mock provider:
 
-### Volunteers
+```env
+DSCIENTIA_AI_PROVIDER=mock
+```
 
-Submit reports and contribute community observations.
+The IBM watsonx provider has been implemented behind the Laravel service layer and includes:
 
-### Researchers
+- IBM IAM token handling;
+- watsonx HTTP client integration;
+- prompt construction;
+- structured response mapping;
+- retry handling;
+- safe fallback behavior;
+- sanitized exception logging;
+- controlled-verification safety checks.
 
-Analyze social impact data and identify trends.
-
-### Social Enterprises
-
-Measure outcomes and optimize programs.
-
----
-
-# Core Features
-
-## Mobile-First Reporting
-
-* Submit field reports
-* Upload photos
-* Capture community observations
-* Offline-first data collection
-
-## Project Monitoring
-
-* Track project progress
-* Monitor activities
-* Review outcomes
-* Manage community interventions
-
-## AI Insight Center
-
-* Automated report summarization
-* Community intelligence dashboard
-* Trend identification
-* Impact analytics
-
-## Risk Assessment Engine
-
-* Emerging risk detection
-* Risk prioritization
-* Community vulnerability analysis
-
-## Recommendation Center
-
-* AI-generated recommendations
-* Suggested interventions
-* Decision support workflows
+A live IBM watsonx request has not yet been claimed as complete. Controlled live verification remains pending IBM Cloud account, Project ID, runtime, API key, and regional model availability.
 
 ---
 
-# AI Capabilities
+## IBM Technology Usage
 
-The DscienTia AI Intelligence Layer is designed around four primary capabilities:
+### IBM Bob
 
-## 1. AI Insight Summarization
+IBM Bob has been used as an AI software-development partner for:
 
-Transforms multiple reports into concise actionable insights.
+- repository and architecture review;
+- implementation planning;
+- code-quality and safety analysis;
+- verification-readiness review;
+- identifying blockers for controlled watsonx testing.
 
-Example:
+### IBM watsonx.ai
 
-> Water-related complaints increased significantly during the last 30 days.
+The repository contains an implemented watsonx provider integration. It is isolated behind the Laravel backend so the Flutter client never receives IBM credentials or calls watsonx directly.
 
----
-
-## 2. Risk Detection
-
-Identifies potential community risks before they become critical.
-
-Examples:
-
-* Water shortages
-* Health concerns
-* Infrastructure issues
-* Resource gaps
-
----
-
-## 3. Recommendation Generation
-
-Suggests actionable next steps for organizations.
-
-Example:
-
-> Coordinate water distribution activities within the next two weeks.
-
----
-
-## 4. Impact Trend Analysis
-
-Tracks patterns and changes across projects and communities.
-
-Examples:
-
-* Increasing beneficiary participation
-* Declining satisfaction rates
-* Improved project completion performance
-
----
-
-# Technology Stack
-
-## Mobile Application
-
-* Flutter
-* Dart
-
-## Backend Platform
-
-* Laravel 12
-* REST API Architecture
-
-## Database
-
-* PostgreSQL
-
-Future:
-
-* PostgreSQL + PostGIS
-* Analytics Warehouse
-
-## Artificial Intelligence
-
-### Current AI Strategy
-
-* IBM watsonx.ai
-* IBM Granite Models
-
-### Future AI Expansion
-
-* Predictive Analytics
-* Geospatial Intelligence
-* Community Forecasting
-* Conversational AI Assistant
-
----
-
-# Architecture Principles
-
-DscienTia follows several key architectural principles:
-
-## Mobile First
-
-Most users operate in the field.
-
-## Offline First
-
-The platform remains functional in low-connectivity environments.
-
-## API First
-
-All services communicate through well-defined APIs.
-
-## AI Ready
-
-AI is designed as a core capability from the beginning.
-
-## Security by Design
-
-Privacy and data protection are foundational requirements.
-
-## Scalable by Design
-
-The architecture supports future growth and expansion.
-
----
-
-# Current Development Roadmap
-
-## Completed Milestones
-
-### v0.1 Foundation
-
-* Product Vision
-* Strategic Roadmap
-
-### v0.2 Architecture Complete
-
-* Domain Model
-* Information Architecture
-* System Architecture
-* User Personas
-* ADR Documentation
-
-### v0.3 AI Transformation
-
-* AI-first platform strategy
-* AI-ready architecture
-* AI intelligence domain model
-
-### v0.4 UX Wireframes
-
-* Login Screen
-* Dashboard
-* Submit Report
-* AI Insight Center
-* Risk Assessment
-* Recommendation Center
-* Project Detail
-
-### v0.5 Data & AI Design
-
-* AI Use Cases
-* AI Data Pipeline
-* AI Architecture
-* Risk Scoring Model
-* Prompt Engineering
-* IBM watsonx Integration
-
----
-
-## Current Milestone
-
-### 🚧 v0.6 AI Insight MVP
-
-Planned Deliverables:
-
-* Flutter Application Foundation
-* Authentication Module
-* Report Submission Workflow
-* AI Insight Generation
-* Risk Assessment MVP
-* Recommendation Engine MVP
-* IBM Granite Integration Prototype
-
----
-
-# Repository Structure
+Target workflow:
 
 ```text
-docs/
-│
-├── architecture/
-│   ├── ADR-001-Mobile-Platform-Strategy.md
-│   ├── Domain-Model.md
-│   ├── Information-Architecture.md
-│   ├── System-Architecture.md
-│   └── User-Personas.md
-│
-├── roadmap/
-│   └── Product-Vision.md
-│
-├── wireframes/
-│   └── screens/
-│
-├── ai/
-│   ├── AI-Use-Cases.md
-│   ├── AI-Data-Pipeline.md
-│   ├── AI-Architecture.md
-│   ├── Risk-Scoring-Model.md
-│   ├── Prompt-Engineering.md
-│   └── IBM-WatsonX-Integration.md
-│
-└── mvp/
+Flutter application
+        |
+        v
+Laravel REST API
+        |
+        v
+AI provider abstraction
+   |              |
+   v              v
+Mock provider   IBM watsonx.ai
+```
+
+Production remains on the mock provider until controlled live verification and a separate production-readiness review are complete.
+
+---
+
+## Architecture
+
+```mermaid
+flowchart LR
+    U[Community user] --> F[Flutter application]
+    F --> A[Laravel REST API]
+    A --> R[(Reports and AI insights)]
+    A --> P{AI provider abstraction}
+    P --> M[Mock provider]
+    P --> W[IBM watsonx.ai provider]
+    W --> I[IBM IAM]
+    A --> L[Sanitized logs and evidence]
+```
+
+### Design principles
+
+- **Backend-controlled AI access:** IBM credentials remain server-side.
+- **Provider abstraction:** mock and watsonx implementations share a stable application contract.
+- **Human decision support:** AI output supports review rather than replacing accountable decision-makers.
+- **Synthetic verification:** live-provider testing is designed around non-personal test data.
+- **Fail-safe activation:** preflight checks block requests when critical configuration is missing.
+- **Evidence-driven development:** smoke tests, runbooks, and verification logs are stored with the project.
+
+---
+
+## Technology Stack
+
+### Frontend
+
+- Flutter
+- Dart
+- Riverpod
+- Repository-pattern data access
+
+### Backend
+
+- Laravel 12
+- PHP
+- REST API
+- Provider-based AI service architecture
+
+### Data
+
+- MySQL in production
+- SQLite for local verification and automated testing
+
+### AI and development tooling
+
+- IBM Bob
+- IBM watsonx.ai provider integration
+- IBM Granite model configuration
+- Mock AI provider for safe development and production demonstration
+
+### Deployment
+
+- Landing page: `https://www.dscientia.dev`
+- Flutter web app: `https://app.dscientia.dev`
+- Laravel API: `https://api.dscientia.dev`
+
+---
+
+## Example Workflow
+
+### 1. Submit a community report
+
+```http
+POST /api/reports
+```
+
+Example synthetic payload:
+
+```json
+{
+  "organization_name": "DscienTia Verification Lab",
+  "reporter_name": "Synthetic Test Runner",
+  "category": "community_resilience",
+  "location": "Synthetic Community Zone A",
+  "urgency": "medium",
+  "description": "A fictional community reported temporary disruption to safe water access after simulated infrastructure damage.",
+  "affected_people_count": 75,
+  "status": "open"
+}
+```
+
+### 2. Generate a structured insight
+
+```http
+POST /api/ai-insights
+```
+
+```json
+{
+  "report_id": 4,
+  "insight_type": "community_risk_summary"
+}
+```
+
+The structured response includes:
+
+- risk level;
+- narrative summary;
+- summary points;
+- recommended actions;
+- confidence score;
+- model provider and model name;
+- completion status.
+
+---
+
+## Responsible AI and Safety
+
+DscienTia currently applies the following safeguards:
+
+- no IBM credentials in the Flutter client;
+- no credentials committed to Git;
+- synthetic data for controlled provider verification;
+- explicit provider and fallback configuration;
+- sanitized exception logs;
+- structured output validation;
+- transparent `model_provider` metadata;
+- no clinical or diagnostic claims;
+- human review expected before operational action;
+- production activation separated from implementation and testing.
+
+Known limitations are documented rather than hidden. AI output may be incomplete, context-sensitive, or unsuitable for direct action without human validation.
+
+---
+
+## Verification Status
+
+| Capability | Status |
+|---|---|
+| Flutter-to-Laravel production flow | Verified |
+| Community report API | Verified |
+| Structured mock AI insight | Verified |
+| Production smoke test | Verified |
+| watsonx provider implementation | Complete |
+| Pre-cloud safety gate | Verified |
+| Controlled live watsonx request | Pending IBM Cloud access |
+| Production watsonx activation | Not authorized |
+
+Evidence is available under:
+
+```text
+docs/evidence/mvp-014/
+docs/evidence/mvp-015e/
+```
+
+Controlled verification documentation:
+
+```text
+docs/deployment/MVP-015E-Controlled-Watsonx-Verification.md
 ```
 
 ---
 
-# IBM AI Builders Challenge 2026
+## Repository Structure
 
-DscienTia is being developed as part of the IBM AI Builders Challenge initiative.
-
-The platform leverages:
-
-* IBM watsonx.ai
-* IBM Granite Models
-* Responsible AI Principles
-* Community Impact Intelligence Workflows
-
-The objective is to demonstrate how AI can be used to strengthen social impact initiatives, improve community resilience, and support evidence-based decision-making.
-
----
-
-# Future Vision
-
-DscienTia aims to evolve into a comprehensive Community Impact Intelligence Platform featuring:
-
-* Predictive Impact Analytics
-* Community Forecasting
-* Geospatial Intelligence
-* Cross-Organization Collaboration
-* AI Copilot for Social Impact Teams
-* Donor Reporting Automation
-* Research Intelligence Tools
+```text
+backend/dscientia_api/       Laravel API and AI provider integration
+frontend/dscientia_app/      Flutter application
+docs/architecture/           System and information architecture
+docs/ai/                     AI design and prompt documentation
+docs/backend/                Backend contracts and implementation notes
+docs/deployment/             Deployment and verification runbooks
+docs/evidence/               Smoke-test and verification evidence
+docs/roadmap/                Product vision and roadmap
+scripts/smoke/               Production smoke-test scripts
+scripts/verification/        Controlled verification utilities
+```
 
 ---
 
-# Author
+## Local Development
 
-**Prio Kus Nugroho**
+### Backend
 
-Bachelor of Science in Computer Science Candidate
-University of the People
+```bash
+cd backend/dscientia_api
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan serve
+```
 
-Founder & Product Architect — DscienTia
+### Frontend
+
+```bash
+cd frontend/dscientia_app
+flutter pub get
+flutter run
+```
+
+Keep local AI configuration on the mock provider unless you are following the controlled watsonx verification runbook:
+
+```env
+DSCIENTIA_AI_PROVIDER=mock
+WATSONX_FALLBACK_TO_MOCK=true
+```
 
 ---
 
-# License
+## Roadmap
 
-This project is currently under active development.
+### Near term
 
-License selection will be finalized before public release.
+- obtain approved IBM Cloud access;
+- perform one controlled live watsonx request;
+- capture sanitized evidence;
+- restore local configuration to mock;
+- complete soft-submission assets and demo narrative.
+
+### Future research and product directions
+
+- longitudinal community-risk analysis;
+- geospatial social-data analysis;
+- bias and representation evaluation;
+- uncertainty-aware recommendations;
+- cross-organization impact comparison;
+- participatory data-governance workflows;
+- responsible community wellbeing indicators;
+- research exports and reproducible analytical reports.
+
+---
+
+## Author
+
+**Prio Kus Nugroho**<br>
+BSc Computer Science candidate, University of the People<br>
+Founder and Product Architect, DscienTia
