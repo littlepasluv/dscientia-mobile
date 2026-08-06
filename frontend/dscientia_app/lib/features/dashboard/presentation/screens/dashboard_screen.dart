@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../config/theme/app_spacing.dart';
+import '../../../../shared/widgets/app_hero_card.dart';
+import '../../../../shared/widgets/app_page_shell.dart';
+import '../../../../shared/widgets/app_section_header.dart';
+import '../../../../shared/widgets/app_status_badge.dart';
+
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
@@ -14,9 +20,7 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Scaffold(
+    return AppPageShell(
       appBar: AppBar(
         title: const Text('DscienTia'),
         actions: [
@@ -27,131 +31,56 @@ class DashboardScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _HeroPanel(
-                title: 'Community Resilience Dashboard',
-                subtitle:
-                    'Track community risks, generate AI-powered insights, and prepare evidence-based actions for local resilience.',
-                label: 'IBM Builder MVP',
-                colorScheme: colorScheme,
-              ),
-              const SizedBox(height: 24),
-              const _SectionTitle(
-                title: 'Today’s Snapshot',
-                subtitle: 'Baseline indicators for the MVP demo.',
-              ),
-              const SizedBox(height: 16),
-              const _MetricsGrid(),
-              const SizedBox(height: 24),
-              const _SectionTitle(
-                title: 'MVP Actions',
-                subtitle: 'Start the core community resilience workflow.',
-              ),
-              const SizedBox(height: 16),
-              _ActionCard(
-                icon: Icons.auto_awesome_outlined,
-                title: 'AI Insight for Community Resilience',
-                description:
-                    'Generate a structured insight from a community risk report, including summary, priority, suggested action, and ethical note.',
-                buttonLabel: 'Start AI Insight Flow',
-                onPressed: () {
-                  context.push('/ai-insights/demo');
-                },
-              ),
-              const SizedBox(height: 16),
-              _ActionCard(
-                icon: Icons.assignment_outlined,
-                title: 'Submit Community Risk Report',
-                description:
-                    'Capture a local issue such as flooding, public safety, health risk, infrastructure damage, or community needs.',
-                buttonLabel: 'Create Risk Report',
-                onPressed: () {
-                  context.push('/reports/new');
-                },
-              ),
-              const SizedBox(height: 24),
-              const _RoadmapCard(),
-            ],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const AppHeroCard(
+            title: 'Community Resilience Dashboard',
+            description:
+                'Track community risks, generate AI-powered insights, and prepare evidence-based actions for local resilience.',
+            icon: Icons.dashboard_customize_outlined,
+            trailing: AppStatusBadge(
+              label: 'IBM Builder MVP',
+              tone: AppStatusTone.info,
+              icon: Icons.verified_outlined,
+            ),
           ),
-        ),
+          const SizedBox(height: AppSpacing.lg),
+          const AppSectionHeader(
+            title: 'Today’s Snapshot',
+            description: 'Baseline indicators for the MVP demo.',
+          ),
+          const _MetricsGrid(),
+          const SizedBox(height: AppSpacing.lg),
+          const AppSectionHeader(
+            title: 'MVP Actions',
+            description: 'Start the core community resilience workflow.',
+          ),
+          _ActionCard(
+            icon: Icons.auto_awesome_outlined,
+            title: 'AI Insight for Community Resilience',
+            description:
+                'Generate a structured insight from a community risk report, including summary, priority, suggested action, and ethical note.',
+            buttonLabel: 'Start AI Insight Flow',
+            onPressed: () {
+              context.push('/ai-insights/demo');
+            },
+          ),
+          const SizedBox(height: AppSpacing.md),
+          _ActionCard(
+            icon: Icons.assignment_outlined,
+            title: 'Submit Community Risk Report',
+            description:
+                'Capture a local issue such as flooding, public safety, health risk, infrastructure damage, or community needs.',
+            buttonLabel: 'Create Risk Report',
+            onPressed: () {
+              context.push('/reports/new');
+            },
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          const _RoadmapCard(),
+        ],
       ),
-    );
-  }
-}
-
-class _HeroPanel extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final String label;
-  final ColorScheme colorScheme;
-
-  const _HeroPanel({
-    required this.title,
-    required this.subtitle,
-    required this.label,
-    required this.colorScheme,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colorScheme.primaryContainer,
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Chip(label: Text(label), backgroundColor: colorScheme.surface),
-            const SizedBox(height: 16),
-            Text(
-              title,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: colorScheme.onPrimaryContainer,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              subtitle,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: colorScheme.onPrimaryContainer,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _SectionTitle extends StatelessWidget {
-  final String title;
-  final String subtitle;
-
-  const _SectionTitle({required this.title, required this.subtitle});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 4),
-        Text(subtitle, style: Theme.of(context).textTheme.bodyMedium),
-      ],
     );
   }
 }
