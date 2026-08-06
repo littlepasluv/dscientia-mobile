@@ -12,6 +12,12 @@ import '../../data/datasources/community_risk_report_api_client.dart';
 import '../../data/dtos/community_risk_report_create_request.dart';
 import '../../domain/entities/community_risk_report_draft.dart';
 
+import '../../../../config/theme/app_spacing.dart';
+import '../../../../shared/widgets/app_hero_card.dart';
+import '../../../../shared/widgets/app_page_shell.dart';
+import '../../../../shared/widgets/app_section_header.dart';
+import '../../../../shared/widgets/app_status_badge.dart';
+
 class CommunityRiskReportScreen extends ConsumerStatefulWidget {
   const CommunityRiskReportScreen({super.key});
 
@@ -192,66 +198,49 @@ class _CommunityRiskReportScreenState
     final colorScheme = Theme.of(context).colorScheme;
     final backendModeEnabled = BackendModeConfig.useBackendApi;
 
-    return Scaffold(
+    return AppPageShell(
       appBar: AppBar(title: const Text('Community Risk Report')),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: colorScheme.primaryContainer,
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Icon(
-                          Icons.assignment_outlined,
-                          color: colorScheme.onPrimaryContainer,
-                          size: 40,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'Submit Community Risk Report',
-                          style: Theme.of(context).textTheme.headlineSmall
-                              ?.copyWith(
-                                color: colorScheme.onPrimaryContainer,
-                                fontWeight: FontWeight.bold,
-                              ),
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          backendModeEnabled
-                              ? 'Backend mode is enabled. This report will be sent to the Laravel API before generating an AI insight.'
-                              : 'Capture a local issue so DscienTia can prepare an AI-powered resilience insight in the next MVP step.',
-                          style: Theme.of(context).textTheme.bodyLarge
-                              ?.copyWith(color: colorScheme.onPrimaryContainer),
-                        ),
-                      ],
-                    ),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AppHeroCard(
+              title: 'Submit Community Risk Report',
+              description: backendModeEnabled
+                  ? 'Backend mode is enabled. This report will be sent to the Laravel API before generating an AI insight.'
+                  : 'Capture a local issue so DscienTia can prepare an AI-powered resilience insight in the next MVP step.',
+              icon: Icons.assignment_outlined,
+              trailing: AppStatusBadge(
+                label: backendModeEnabled ? 'Backend API' : 'Local mock',
+                tone: AppStatusTone.info,
+                icon: backendModeEnabled
+                    ? Icons.cloud_done_outlined
+                    : Icons.science_outlined,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            if (_submitError != null) ...[
+              Card(
+                margin: EdgeInsets.zero,
+                color: colorScheme.errorContainer,
+                child: Padding(
+                  padding: const EdgeInsets.all(AppSpacing.md),
+                  child: Text(
+                    _submitError!,
+                    style: TextStyle(color: colorScheme.onErrorContainer),
                   ),
                 ),
-                const SizedBox(height: 24),
-                if (_submitError != null) ...[
-                  Card(
-                    color: colorScheme.errorContainer,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Text(
-                        _submitError!,
-                        style: TextStyle(color: colorScheme.onErrorContainer),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                ],
+              ),
+              const SizedBox(height: AppSpacing.lg),
+            ],
+            const AppSectionHeader(
+              title: 'Report details',
+              description:
+                  'Describe the issue and identify where it is happening.',
+            ),
+            _FormSectionCard(
+              children: [
                 TextFormField(
                   controller: _titleController,
                   decoration: const InputDecoration(
@@ -262,7 +251,7 @@ class _CommunityRiskReportScreenState
                   textInputAction: TextInputAction.next,
                   validator: _requiredValidator,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: AppSpacing.md),
                 DropdownButtonFormField<String>(
                   initialValue: _selectedCategory,
                   decoration: const InputDecoration(
@@ -285,7 +274,7 @@ class _CommunityRiskReportScreenState
                     });
                   },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: AppSpacing.md),
                 TextFormField(
                   controller: _locationController,
                   decoration: const InputDecoration(
@@ -296,7 +285,16 @@ class _CommunityRiskReportScreenState
                   textInputAction: TextInputAction.next,
                   validator: _requiredValidator,
                 ),
-                const SizedBox(height: 16),
+              ],
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            const AppSectionHeader(
+              title: 'Impact and priority',
+              description:
+                  'Record the estimated impact and urgency of the issue.',
+            ),
+            _FormSectionCard(
+              children: [
                 TextFormField(
                   controller: _affectedPeopleController,
                   decoration: const InputDecoration(
@@ -308,7 +306,7 @@ class _CommunityRiskReportScreenState
                   textInputAction: TextInputAction.next,
                   validator: _affectedPeopleValidator,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: AppSpacing.md),
                 TextFormField(
                   controller: _descriptionController,
                   decoration: const InputDecoration(
@@ -322,7 +320,7 @@ class _CommunityRiskReportScreenState
                   maxLines: 8,
                   validator: _descriptionValidator,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: AppSpacing.md),
                 DropdownButtonFormField<String>(
                   initialValue: _selectedUrgency,
                   decoration: const InputDecoration(
@@ -345,29 +343,49 @@ class _CommunityRiskReportScreenState
                     });
                   },
                 ),
-                const SizedBox(height: 24),
-                FilledButton.icon(
-                  onPressed: _isSubmitting ? null : _submitReport,
-                  icon: _isSubmitting
-                      ? const SizedBox.square(
-                          dimension: 18,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : const Icon(Icons.auto_awesome_outlined),
-                  label: Text(
-                    _isSubmitting ? 'Generating...' : 'Prepare AI Insight',
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  backendModeEnabled
-                      ? 'MVP note: backend mode is active for local API testing. The public web demo can remain in local mock mode.'
-                      : 'MVP note: this form currently uses local mock behavior. Backend persistence can be enabled with DSCIENTIA_USE_BACKEND_API=true.',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
               ],
             ),
-          ),
+            const SizedBox(height: AppSpacing.lg),
+            FilledButton.icon(
+              onPressed: _isSubmitting ? null : _submitReport,
+              icon: _isSubmitting
+                  ? const SizedBox.square(
+                      dimension: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.auto_awesome_outlined),
+              label: Text(
+                _isSubmitting ? 'Generating...' : 'Prepare AI Insight',
+              ),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            Text(
+              backendModeEnabled
+                  ? 'MVP note: backend mode is active for local API testing. The public web demo can remain in local mock mode.'
+                  : 'MVP note: this form currently uses local mock behavior. Backend persistence can be enabled with DSCIENTIA_USE_BACKEND_API=true.',
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _FormSectionCard extends StatelessWidget {
+  const _FormSectionCard({required this.children});
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.zero,
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: children,
         ),
       ),
     );
