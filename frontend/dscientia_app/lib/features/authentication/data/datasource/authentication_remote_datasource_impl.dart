@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-
+import '../models/user_model.dart';
 import '../models/auth_session_model.dart';
 import '../models/login_request.dart';
 import '../models/register_request.dart';
@@ -14,7 +14,6 @@ class AuthenticationRemoteDataSourceImpl
   static const String _loginPath = '/auth/login';
   static const String _registerPath = '/auth/register';
   static const String _logoutPath = '/auth/logout';
-  static const String _refreshSessionPath = '/auth/refresh';
   static const String _currentSessionPath = '/auth/session';
   static const String _forgotPasswordPath = '/auth/password/forgot';
   static const String _resetPasswordPath = '/auth/password/reset';
@@ -45,18 +44,19 @@ class AuthenticationRemoteDataSourceImpl
   }
 
   @override
-  Future<AuthSessionModel> refreshSession() async {
-    final response = await _dio.post<dynamic>(_refreshSessionPath);
-
-    return AuthSessionModel.fromJson(_extractResponseMap(response));
-  }
-
-  @override
-  Future<AuthSessionModel?> getCurrentSession() async {
+  Future<UserModel?> getCurrentSession() async {
     try {
-      final response = await _dio.get<dynamic>(_currentSessionPath);
+      final response = await _dio.get(_currentSessionPath);
+      final responseMap = _extractResponseMap(response);
+      final userJson = responseMap['user'];
 
-      return AuthSessionModel.fromJson(_extractResponseMap(response));
+      if (userJson is! Map) {
+        throw const FormatException(
+          'Current-session response must contain a user object.',
+        );
+      }
+
+      return UserModel.fromJson(Map<String, dynamic>.from(userJson));
     } on DioException catch (error) {
       if (error.response?.statusCode == 401) {
         return null;

@@ -53,15 +53,6 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<AuthSession> refreshSession() async {
-    final sessionModel = await _remoteDataSource.refreshSession();
-
-    await _localDataSource.saveTokens(sessionModel.tokens);
-
-    return sessionModel.toEntity();
-  }
-
-  @override
   Future<AuthSession?> getCurrentSession() async {
     final hasValidTokens = await _localDataSource.hasValidTokens();
 
@@ -69,16 +60,24 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       return null;
     }
 
-    final sessionModel = await _remoteDataSource.getCurrentSession();
+    final tokensModel = await _localDataSource.getTokens();
 
-    if (sessionModel == null) {
+    if (tokensModel == null) {
+      return null;
+    }
+
+    final userModel = await _remoteDataSource.getCurrentSession();
+
+    if (userModel == null) {
       await _localDataSource.clearTokens();
       return null;
     }
 
-    await _localDataSource.saveTokens(sessionModel.tokens);
-
-    return sessionModel.toEntity();
+    return AuthSession(
+      user: userModel.toEntity(),
+      tokens: tokensModel.toEntity(),
+      isAuthenticated: true,
+    );
   }
 
   @override
