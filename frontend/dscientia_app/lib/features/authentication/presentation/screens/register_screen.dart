@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../config/theme/app_spacing.dart';
+import '../../../../shared/widgets/app_auth_shell.dart';
 import '../providers/authentication_notifier.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
@@ -38,76 +41,77 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final authState = ref.watch(authenticationNotifierProvider);
     final isLoading = authState.isLoading;
 
-    return Scaffold(
-      appBar: AppBar(title: const Text('Create account')),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Text(
-                'Join DscienTia',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              const Text('Create an account to start using DscienTia.'),
-              const SizedBox(height: 32),
-              TextField(
-                controller: _fullNameController,
-                decoration: const InputDecoration(
-                  labelText: 'Full name',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 24),
-              FilledButton(
-                onPressed: isLoading ? null : _submit,
-                child: isLoading
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Text('Create account'),
-              ),
-              const SizedBox(height: 16),
-              TextButton(
-                onPressed: isLoading
-                    ? null
-                    : () {
-                        context.go('/login');
-                      },
-                child: const Text('Already have an account? Sign in'),
-              ),
-              if (authState.hasError && authState.errorMessage != null) ...[
-                const SizedBox(height: 16),
-                Text(
-                  authState.errorMessage!,
-                  style: TextStyle(color: Theme.of(context).colorScheme.error),
-                ),
-              ],
-            ],
+    return AppAuthShell(
+      appBarTitle: 'Create account',
+      title: 'Join DscienTia',
+      description:
+          'Create an account to support data-driven community resilience.',
+      icon: Icons.person_add_alt_outlined,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          TextField(
+            controller: _fullNameController,
+            textInputAction: TextInputAction.next,
+            autofillHints: const [AutofillHints.name],
+            decoration: const InputDecoration(
+              labelText: 'Full name',
+              prefixIcon: Icon(Icons.person_outline),
+            ),
           ),
-        ),
+          const SizedBox(height: AppSpacing.md),
+          TextField(
+            controller: _emailController,
+            keyboardType: TextInputType.emailAddress,
+            textInputAction: TextInputAction.next,
+            autofillHints: const [AutofillHints.email],
+            decoration: const InputDecoration(
+              labelText: 'Email',
+              hintText: 'name@example.com',
+              prefixIcon: Icon(Icons.email_outlined),
+            ),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          TextField(
+            controller: _passwordController,
+            obscureText: true,
+            autofillHints: const [AutofillHints.newPassword],
+            decoration: const InputDecoration(
+              labelText: 'Password',
+              prefixIcon: Icon(Icons.lock_outline),
+            ),
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          FilledButton(
+            onPressed: isLoading ? null : _submit,
+            child: isLoading
+                ? const SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Text('Create account'),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          TextButton(
+            onPressed: isLoading
+                ? null
+                : () {
+                    context.go('/login');
+                  },
+            child: const Text('Already have an account? Sign in'),
+          ),
+          if (authState.hasError && authState.errorMessage != null) ...[
+            const SizedBox(height: AppSpacing.md),
+            Semantics(
+              liveRegion: true,
+              child: Text(
+                authState.errorMessage!,
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
+              ),
+            ),
+          ],
+        ],
       ),
     );
   }

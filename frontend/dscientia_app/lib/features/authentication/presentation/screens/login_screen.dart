@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../config/theme/app_spacing.dart';
+import '../../../../shared/widgets/app_auth_shell.dart';
 import '../providers/authentication_notifier.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -35,70 +38,66 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final authState = ref.watch(authenticationNotifierProvider);
     final isLoading = authState.isLoading;
 
-    return Scaffold(
-      appBar: AppBar(title: const Text('Sign in')),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Text(
-                'Welcome back to DscienTia',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Sign in to continue your community resilience dashboard.',
-              ),
-              const SizedBox(height: 32),
-              TextField(
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 24),
-              FilledButton(
-                onPressed: isLoading ? null : _submit,
-                child: isLoading
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Text('Sign in'),
-              ),
-              const SizedBox(height: 16),
-              TextButton(
-                onPressed: isLoading
-                    ? null
-                    : () {
-                        context.push('/register');
-                      },
-                child: const Text('Create an account'),
-              ),
-              if (authState.hasError && authState.errorMessage != null) ...[
-                const SizedBox(height: 16),
-                Text(
-                  authState.errorMessage!,
-                  style: TextStyle(color: Theme.of(context).colorScheme.error),
-                ),
-              ],
-            ],
+    return AppAuthShell(
+      appBarTitle: 'Sign in',
+      title: 'Welcome back to DscienTia',
+      description: 'Sign in to continue your community resilience dashboard.',
+      icon: Icons.login_outlined,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          TextField(
+            controller: _emailController,
+            keyboardType: TextInputType.emailAddress,
+            textInputAction: TextInputAction.next,
+            autofillHints: const [AutofillHints.email],
+            decoration: const InputDecoration(
+              labelText: 'Email',
+              hintText: 'name@example.com',
+              prefixIcon: Icon(Icons.email_outlined),
+            ),
           ),
-        ),
+          const SizedBox(height: AppSpacing.md),
+          TextField(
+            controller: _passwordController,
+            obscureText: true,
+            autofillHints: const [AutofillHints.password],
+            decoration: const InputDecoration(
+              labelText: 'Password',
+              prefixIcon: Icon(Icons.lock_outline),
+            ),
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          FilledButton(
+            onPressed: isLoading ? null : _submit,
+            child: isLoading
+                ? const SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Text('Sign in'),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          TextButton(
+            onPressed: isLoading
+                ? null
+                : () {
+                    context.push('/register');
+                  },
+            child: const Text('Create an account'),
+          ),
+          if (authState.hasError && authState.errorMessage != null) ...[
+            const SizedBox(height: AppSpacing.md),
+            Semantics(
+              liveRegion: true,
+              child: Text(
+                authState.errorMessage!,
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
+              ),
+            ),
+          ],
+        ],
       ),
     );
   }
