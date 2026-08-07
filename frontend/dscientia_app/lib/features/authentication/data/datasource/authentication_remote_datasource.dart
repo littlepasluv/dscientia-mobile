@@ -1,6 +1,7 @@
 import '../models/auth_session_model.dart';
 import '../models/login_request.dart';
 import '../models/register_request.dart';
+import '../models/user_model.dart';
 
 abstract class AuthenticationRemoteDataSource {
   Future<AuthSessionModel> login(LoginRequest request);
@@ -9,9 +10,7 @@ abstract class AuthenticationRemoteDataSource {
 
   Future<void> logout();
 
-  Future<AuthSessionModel> refreshSession();
-
-  Future<AuthSessionModel?> getCurrentSession();
+  Future<UserModel?> getCurrentSession();
 
   Future<void> forgotPassword(String email);
 

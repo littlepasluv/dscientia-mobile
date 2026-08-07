@@ -11,8 +11,6 @@ abstract class AuthenticationRepository {
 
   Future<void> logout();
 
-  Future<AuthSession> refreshSession();
-
   Future<AuthSession?> getCurrentSession();
 
   Future<void> forgotPassword({required String email});
