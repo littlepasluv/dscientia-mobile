@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../config/theme/app_spacing.dart';
 import '../../../../shared/widgets/app_hero_card.dart';
+import '../../../../shared/widgets/app_brand_logo.dart';
 import '../../../../shared/widgets/app_page_shell.dart';
 import '../../../../shared/widgets/app_section_header.dart';
 import '../../../../shared/widgets/app_status_badge.dart';
@@ -22,7 +23,7 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppPageShell(
       appBar: AppBar(
-        title: const Text('DscienTia'),
+        title: const AppBrandLogo(),
         actions: [
           IconButton(
             tooltip: 'Notifications',
@@ -77,8 +78,6 @@ class DashboardScreen extends StatelessWidget {
               context.push('/reports/new');
             },
           ),
-          const SizedBox(height: AppSpacing.lg),
-          const _RoadmapCard(),
         ],
       ),
     );
@@ -238,79 +237,6 @@ class _ActionCard extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _RoadmapCard extends StatelessWidget {
-  const _RoadmapCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            _RoadmapHeader(),
-            SizedBox(height: 16),
-            _RoadmapItem(
-              status: 'Current',
-              title: 'MVP-001 Basic Dashboard Skeleton',
-              description: 'Create the first visible product dashboard.',
-            ),
-            _RoadmapItem(
-              status: 'Next',
-              title: 'MVP-002 Community Risk Report Form',
-              description: 'Capture local risks and community issues.',
-            ),
-            _RoadmapItem(
-              status: 'Next',
-              title: 'MVP-003 AI Insight Result Screen',
-              description:
-                  'Display AI-generated summary, priority, action, and ethical note.',
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _RoadmapHeader extends StatelessWidget {
-  const _RoadmapHeader();
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      'IBM Builder MVP Roadmap',
-      style: Theme.of(
-        context,
-      ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-    );
-  }
-}
-
-class _RoadmapItem extends StatelessWidget {
-  final String status;
-  final String title;
-  final String description;
-
-  const _RoadmapItem({
-    required this.status,
-    required this.title,
-    required this.description,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      leading: const Icon(Icons.check_circle_outline),
-      title: Text(title),
-      subtitle: Text(description),
-      trailing: Text(status),
     );
   }
 }
