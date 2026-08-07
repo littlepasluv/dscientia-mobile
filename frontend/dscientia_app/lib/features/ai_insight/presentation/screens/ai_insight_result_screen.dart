@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import '../../../reports/domain/entities/community_risk_report_draft.dart';
 import '../../data/dtos/ai_insight_response.dart';
 import '../../domain/services/mock_ai_insight_generator.dart';
+import '../../../../config/theme/app_spacing.dart';
+import '../../../../shared/widgets/app_hero_card.dart';
+import '../../../../shared/widgets/app_page_shell.dart';
+import '../../../../shared/widgets/app_section_header.dart';
+import '../../../../shared/widgets/app_status_badge.dart';
 
 class AiInsightResultScreen extends StatelessWidget {
   final CommunityRiskReportDraft report;
@@ -16,7 +21,6 @@ class AiInsightResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     final localInsight = backendInsight == null
         ? const MockAiInsightGenerator().generate(report)
         : null;
@@ -42,59 +46,90 @@ class AiInsightResultScreen extends StatelessWidget {
         ? 'This backend-generated insight is a decision-support output. It should be validated by local community leaders before action is taken.'
         : localInsight!.ethicalNote;
 
-    return Scaffold(
+    return AppPageShell(
+      scrollable: false,
+      topPadding: 0,
+      bottomPadding: 0,
       appBar: AppBar(title: const Text('AI Insight Result')),
-      body: SafeArea(
+      child: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _InsightHero(
-                priorityLabel: priorityLabel,
-                colorScheme: colorScheme,
-                sourceLabel: backendInsight != null
-                    ? 'Backend AI Insight'
-                    : 'Mock AI Insight',
-                subtitle: backendInsight != null
+              AppHeroCard(
+                title: 'AI-Powered Community Resilience Insight',
+                description: backendInsight != null
                     ? 'Generated from the Laravel backend API using the configured AI provider contract.'
                     : 'Generated from the submitted community risk report as a local MVP preview before IBM/watsonx integration.',
+                icon: Icons.auto_awesome_outlined,
+                trailing: Wrap(
+                  spacing: AppSpacing.xs,
+                  runSpacing: AppSpacing.xs,
+                  children: [
+                    AppStatusBadge(
+                      label: backendInsight != null
+                          ? 'Backend AI Insight'
+                          : 'Mock AI Insight',
+                      tone: AppStatusTone.ai,
+                      icon: Icons.auto_awesome_outlined,
+                    ),
+                    AppStatusBadge(
+                      label: priorityLabel,
+                      tone: AppStatusTone.info,
+                      icon: Icons.priority_high_outlined,
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: AppSpacing.xl),
+              const AppSectionHeader(
+                title: 'Source Report',
+                description:
+                    'Review the community report context used to generate this insight.',
+              ),
               _ReportContextCard(report: report),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.xl),
+              const AppSectionHeader(
+                title: 'AI Decision Support',
+                description:
+                    'Use these recommendations as decision support and validate them with local context.',
+              ),
               _InsightCard(
                 icon: Icons.summarize_outlined,
                 title: 'AI Risk Summary',
                 content: summary,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.md),
               _InsightCard(
                 icon: Icons.priority_high_outlined,
                 title: 'Priority Assessment',
                 content: priorityRationale,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.md),
               _InsightCard(
                 icon: Icons.task_alt_outlined,
                 title: 'Suggested Community Action',
                 content: suggestedAction,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.md),
               _ActionStepsCard(actionSteps: actionSteps),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.md),
               _InsightCard(
                 icon: Icons.verified_user_outlined,
                 title: 'Ethical AI Note',
                 content: ethicalNote,
               ),
-              const SizedBox(height: 24),
-              FilledButton.icon(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: const Icon(Icons.arrow_back),
-                label: const Text('Back'),
+              const SizedBox(height: AppSpacing.xl),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: FilledButton.icon(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: const Icon(Icons.arrow_back),
+                  label: const Text('Back'),
+                ),
               ),
             ],
           ),
@@ -114,63 +149,6 @@ class AiInsightResultScreen extends StatelessWidget {
   }
 }
 
-class _InsightHero extends StatelessWidget {
-  final String priorityLabel;
-  final ColorScheme colorScheme;
-  final String sourceLabel;
-  final String subtitle;
-
-  const _InsightHero({
-    required this.priorityLabel,
-    required this.colorScheme,
-    required this.sourceLabel,
-    required this.subtitle,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colorScheme.primaryContainer,
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Chip(
-              avatar: const Icon(Icons.auto_awesome_outlined),
-              label: Text(sourceLabel),
-              backgroundColor: colorScheme.surface,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'AI-Powered Community Resilience Insight',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: colorScheme.onPrimaryContainer,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              subtitle,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: colorScheme.onPrimaryContainer,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Chip(
-              label: Text(priorityLabel),
-              backgroundColor: colorScheme.surface,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class _ReportContextCard extends StatelessWidget {
   final CommunityRiskReportDraft report;
 
@@ -180,7 +158,7 @@ class _ReportContextCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return _InsightCard(
       icon: Icons.assignment_outlined,
-      title: 'Source Report',
+      title: 'Report Details',
       content:
           '${report.title}\n\nCategory: ${report.category}\nLocation: ${report.location}\nUrgency: ${report.urgency}\n\n${report.description}',
     );
@@ -196,7 +174,7 @@ class _ActionStepsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -206,15 +184,15 @@ class _ActionStepsCard extends StatelessWidget {
                 context,
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.sm),
             ...actionSteps.map(
               (step) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.only(bottom: AppSpacing.xs),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Icon(Icons.check_circle_outline, size: 20),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: AppSpacing.xs),
                     Expanded(child: Text(step)),
                   ],
                 ),
@@ -244,7 +222,7 @@ class _InsightCard extends StatelessWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -253,7 +231,7 @@ class _InsightCard extends StatelessWidget {
               foregroundColor: colorScheme.onSecondaryContainer,
               child: Icon(icon),
             ),
-            const SizedBox(width: 16),
+            const SizedBox(width: AppSpacing.md),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -264,7 +242,7 @@ class _InsightCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacing.xs),
                   Text(content),
                 ],
               ),
