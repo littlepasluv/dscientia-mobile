@@ -11,11 +11,10 @@ import '../../features/reports/domain/entities/community_risk_report_draft.dart'
 import '../../features/reports/presentation/screens/community_risk_report_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
-  final authState = ref.watch(authenticationNotifierProvider);
-
-  return GoRouter(
+  final router = GoRouter(
     initialLocation: '/demo',
     redirect: (context, state) {
+      final authState = ref.read(authenticationNotifierProvider);
       final location = state.uri.path;
 
       final isAuthRoute = location == '/login' || location == '/register';
@@ -95,4 +94,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
     ],
   );
+
+  ref.listen(authenticationNotifierProvider, (previous, next) {
+    router.refresh();
+  });
+
+  ref.onDispose(router.dispose);
+
+  return router;
 });

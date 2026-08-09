@@ -17,6 +17,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  String? _emailError;
+  String? _passwordError;
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -25,12 +28,21 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _submit() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+
+    setState(() {
+      _emailError = email.isEmpty ? 'Email is required.' : null;
+      _passwordError = password.isEmpty ? 'Password is required.' : null;
+    });
+
+    if (_emailError != null || _passwordError != null) {
+      return;
+    }
+
     await ref
         .read(authenticationNotifierProvider.notifier)
-        .login(
-          email: _emailController.text.trim(),
-          password: _passwordController.text,
-        );
+        .login(email: email, password: password);
   }
 
   @override
@@ -51,10 +63,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             autofillHints: const [AutofillHints.email],
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               labelText: 'Email',
               hintText: 'name@example.com',
-              prefixIcon: Icon(Icons.email_outlined),
+              prefixIcon: const Icon(Icons.email_outlined),
+              errorText: _emailError,
             ),
           ),
           const SizedBox(height: AppSpacing.md),
@@ -62,9 +75,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             controller: _passwordController,
             obscureText: true,
             autofillHints: const [AutofillHints.password],
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               labelText: 'Password',
-              prefixIcon: Icon(Icons.lock_outline),
+              prefixIcon: const Icon(Icons.lock_outline),
+              errorText: _passwordError,
             ),
           ),
           const SizedBox(height: AppSpacing.lg),
