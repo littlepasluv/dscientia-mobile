@@ -74,14 +74,17 @@ class AuthenticationNotifier extends Notifier<AuthenticationState> {
   }
 
   Future<void> logout() async {
+    final previousState = state;
+
     state = const AuthenticationState.loading();
 
     try {
       await _repository.logout();
 
       state = const AuthenticationState.unauthenticated();
-    } catch (error) {
-      state = AuthenticationState.error(message: _messageFromError(error));
+    } catch (_) {
+      state = previousState;
+      rethrow;
     }
   }
 

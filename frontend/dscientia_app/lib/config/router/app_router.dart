@@ -27,7 +27,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
       final isAuthenticated = authState.isAuthenticated;
 
-      if (!isAuthenticated && !isAuthRoute && !isPublicDemoRoute) {
+      if (authState.isUnauthenticated && !isAuthRoute && !isPublicDemoRoute) {
         return '/login';
       }
 

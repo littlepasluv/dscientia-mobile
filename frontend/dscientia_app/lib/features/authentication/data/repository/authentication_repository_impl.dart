@@ -47,6 +47,9 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   Future<void> logout() async {
     try {
       await _remoteDataSource.logout();
+    } on Object {
+      // Server logout is best effort.
+      // Local token removal remains authoritative.
     } finally {
       await _localDataSource.clearTokens();
     }
