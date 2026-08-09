@@ -3,7 +3,10 @@
 $allowedOrigins = array_filter(
     array_map(
         'trim',
-        explode(',', env('DSCIENTIA_CORS_ALLOWED_ORIGINS', 'https://app.dscientia.dev,http://localhost:3000,http://localhost:5000,http://localhost:5440,http://localhost:5444,http://localhost:8080'))
+        explode(',', env(
+            'DSCIENTIA_CORS_ALLOWED_ORIGINS',
+            'https://app.dscientia.dev,https://www.dscientia.dev,http://localhost:3000,http://localhost:4173,http://localhost:5000,http://localhost:5440,http://localhost:5444,http://localhost:8080'
+        ))
     )
 );
 

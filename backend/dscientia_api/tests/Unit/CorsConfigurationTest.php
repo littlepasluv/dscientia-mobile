@@ -11,12 +11,14 @@ class CorsConfigurationTest extends TestCase
         $allowedOrigins = config('cors.allowed_origins');
 
         $this->assertContains('https://app.dscientia.dev', $allowedOrigins);
+        $this->assertContains('https://www.dscientia.dev', $allowedOrigins);
     }
 
     public function test_cors_supports_local_flutter_development_origins(): void
     {
         $allowedOrigins = config('cors.allowed_origins');
 
+        $this->assertContains('http://localhost:4173', $allowedOrigins);
         $this->assertContains('http://localhost:5444', $allowedOrigins);
     }
 }
