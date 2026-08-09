@@ -18,6 +18,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  String? _fullNameError;
+  String? _emailError;
+  String? _passwordError;
+
   @override
   void dispose() {
     _fullNameController.dispose();
@@ -27,13 +31,25 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   }
 
   Future<void> _submit() async {
+    final fullName = _fullNameController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+
+    setState(() {
+      _fullNameError = fullName.isEmpty ? 'Full name is required.' : null;
+      _emailError = email.isEmpty ? 'Email is required.' : null;
+      _passwordError = password.isEmpty ? 'Password is required.' : null;
+    });
+
+    if (_fullNameError != null ||
+        _emailError != null ||
+        _passwordError != null) {
+      return;
+    }
+
     await ref
         .read(authenticationNotifierProvider.notifier)
-        .register(
-          fullName: _fullNameController.text.trim(),
-          email: _emailController.text.trim(),
-          password: _passwordController.text,
-        );
+        .register(fullName: fullName, email: email, password: password);
   }
 
   @override
@@ -54,9 +70,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             controller: _fullNameController,
             textInputAction: TextInputAction.next,
             autofillHints: const [AutofillHints.name],
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               labelText: 'Full name',
-              prefixIcon: Icon(Icons.person_outline),
+              prefixIcon: const Icon(Icons.person_outline),
+              errorText: _fullNameError,
             ),
           ),
           const SizedBox(height: AppSpacing.md),
@@ -65,10 +82,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             autofillHints: const [AutofillHints.email],
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               labelText: 'Email',
               hintText: 'name@example.com',
-              prefixIcon: Icon(Icons.email_outlined),
+              prefixIcon: const Icon(Icons.email_outlined),
+              errorText: _emailError,
             ),
           ),
           const SizedBox(height: AppSpacing.md),
@@ -76,9 +94,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             controller: _passwordController,
             obscureText: true,
             autofillHints: const [AutofillHints.newPassword],
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               labelText: 'Password',
-              prefixIcon: Icon(Icons.lock_outline),
+              prefixIcon: const Icon(Icons.lock_outline),
+              errorText: _passwordError,
             ),
           ),
           const SizedBox(height: AppSpacing.lg),
