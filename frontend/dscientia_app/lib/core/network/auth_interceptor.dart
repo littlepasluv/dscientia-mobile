@@ -13,9 +13,16 @@ class AuthInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final accessToken = await _secureStorage.read(
-      key: AuthTokenStorageKeys.accessToken,
-    );
+    String? accessToken;
+
+    try {
+      accessToken = await _secureStorage.read(
+        key: AuthTokenStorageKeys.accessToken,
+      );
+    } on Object {
+      // A corrupted or undecryptable web token must not block the request.
+      accessToken = null;
+    }
 
     final hasAuthorizationHeader = options.headers.containsKey('Authorization');
 

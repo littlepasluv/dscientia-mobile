@@ -12,16 +12,15 @@ class AuthenticationLocalDataSourceImpl
 
   @override
   Future<void> saveTokens(AuthTokensModel tokens) async {
-    await Future.wait([
-      _secureStorage.write(
-        key: AuthTokenStorageKeys.accessToken,
-        value: tokens.accessToken,
-      ),
-      _secureStorage.write(
-        key: AuthTokenStorageKeys.expiresAt,
-        value: tokens.expiresAt.toIso8601String(),
-      ),
-    ]);
+    await _secureStorage.write(
+      key: AuthTokenStorageKeys.accessToken,
+      value: tokens.accessToken,
+    );
+
+    await _secureStorage.write(
+      key: AuthTokenStorageKeys.expiresAt,
+      value: tokens.expiresAt.toIso8601String(),
+    );
   }
 
   @override

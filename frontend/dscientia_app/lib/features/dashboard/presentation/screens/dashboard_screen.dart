@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../config/theme/app_spacing.dart';
-import '../../../../shared/widgets/app_hero_card.dart';
 import '../../../../shared/widgets/app_brand_logo.dart';
+import '../../../../shared/widgets/app_hero_card.dart';
 import '../../../../shared/widgets/app_page_shell.dart';
 import '../../../../shared/widgets/app_section_header.dart';
 import '../../../../shared/widgets/app_status_badge.dart';
+import '../../../authentication/presentation/providers/authentication_notifier.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
+
+  @override
+  ConsumerState<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends ConsumerState<DashboardScreen> {
+  bool _isLoggingOut = false;
 
   void _showComingSoonMessage(BuildContext context, String featureName) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -19,8 +28,39 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
+  Future<void> _logout() async {
+    if (_isLoggingOut) {
+      return;
+    }
+
+    setState(() {
+      _isLoggingOut = true;
+    });
+
+    try {
+      await ref.read(authenticationNotifierProvider.notifier).logout();
+    } on Object {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Unable to log out safely. Please try again.'),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoggingOut = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authenticationNotifierProvider);
+    final showLogoutButton = authState.isAuthenticated || _isLoggingOut;
+
     return AppPageShell(
       appBar: AppBar(
         title: const AppBrandLogo(),
@@ -30,6 +70,17 @@ class DashboardScreen extends StatelessWidget {
             onPressed: () => _showComingSoonMessage(context, 'Notifications'),
             icon: const Icon(Icons.notifications_outlined),
           ),
+          if (showLogoutButton)
+            IconButton(
+              tooltip: 'Log out',
+              onPressed: _isLoggingOut ? null : _logout,
+              icon: _isLoggingOut
+                  ? const SizedBox.square(
+                      dimension: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.logout_outlined),
+            ),
         ],
       ),
       child: Column(
