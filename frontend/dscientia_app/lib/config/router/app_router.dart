@@ -41,12 +41,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/',
         name: 'home',
-        builder: (context, state) => const DashboardScreen(),
+        builder: (context, state) => const DashboardScreen.authenticated(),
       ),
       GoRoute(
         path: '/demo',
         name: 'demo',
-        builder: (context, state) => const DashboardScreen(),
+        builder: (context, state) => const DashboardScreen.demo(),
       ),
       GoRoute(
         path: '/login',

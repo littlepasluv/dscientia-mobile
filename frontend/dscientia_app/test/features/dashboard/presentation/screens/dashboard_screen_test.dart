@@ -70,10 +70,14 @@ ProviderContainer _createContainer(
   );
 }
 
-Widget _buildDashboard(ProviderContainer container) {
+Widget _buildDashboard(ProviderContainer container, {bool isDemoMode = false}) {
+  final dashboard = isDemoMode
+      ? const DashboardScreen.demo()
+      : const DashboardScreen.authenticated();
+
   return UncontrolledProviderScope(
     container: container,
-    child: const MaterialApp(home: DashboardScreen()),
+    child: MaterialApp(home: dashboard),
   );
 }
 
@@ -83,7 +87,7 @@ void main() {
     final container = _createContainer(repository);
     addTearDown(container.dispose);
 
-    await tester.pumpWidget(_buildDashboard(container));
+    await tester.pumpWidget(_buildDashboard(container, isDemoMode: true));
 
     expect(find.text('Community Resilience Dashboard'), findsOneWidget);
     expect(find.text('Today’s Snapshot'), findsOneWidget);
@@ -92,15 +96,35 @@ void main() {
     expect(find.text('IBM Builder MVP Roadmap'), findsNothing);
   });
 
-  testWidgets('Dashboard hides logout when user is not authenticated', (
+  testWidgets('Demo dashboard shows sign in and hides logout', (tester) async {
+    final repository = _RecordingAuthenticationRepository();
+    final container = _createContainer(repository);
+    addTearDown(container.dispose);
+
+    await tester.pumpWidget(_buildDashboard(container, isDemoMode: true));
+
+    expect(find.text('Demo Mode'), findsOneWidget);
+    expect(find.text('Sign in'), findsOneWidget);
+    expect(find.byTooltip('Log out'), findsNothing);
+    expect(repository.logoutCallCount, 0);
+  });
+
+  testWidgets('Demo dashboard never shows logout for authenticated user', (
     tester,
   ) async {
     final repository = _RecordingAuthenticationRepository();
     final container = _createContainer(repository);
     addTearDown(container.dispose);
 
-    await tester.pumpWidget(_buildDashboard(container));
+    await container
+        .read(authenticationNotifierProvider.notifier)
+        .login(email: 'test@example.com', password: 'test-password');
 
+    await tester.pumpWidget(_buildDashboard(container, isDemoMode: true));
+    await tester.pump();
+
+    expect(find.text('Demo Mode'), findsOneWidget);
+    expect(find.text('Exit demo'), findsOneWidget);
     expect(find.byTooltip('Log out'), findsNothing);
     expect(repository.logoutCallCount, 0);
   });
@@ -118,6 +142,7 @@ void main() {
     await tester.pump();
 
     expect(find.byTooltip('Log out'), findsOneWidget);
+    expect(find.text('Log out'), findsOneWidget);
 
     await tester.tap(find.byTooltip('Log out'));
     await tester.pumpAndSettle();
@@ -128,6 +153,7 @@ void main() {
       isTrue,
     );
     expect(find.byTooltip('Log out'), findsNothing);
+    expect(find.text('Log out'), findsNothing);
   });
 
   testWidgets('Failed logout keeps authenticated state and shows message', (
@@ -154,6 +180,7 @@ void main() {
       isTrue,
     );
     expect(find.byTooltip('Log out'), findsOneWidget);
+    expect(find.text('Log out'), findsOneWidget);
     expect(
       find.text('Unable to log out safely. Please try again.'),
       findsOneWidget,
