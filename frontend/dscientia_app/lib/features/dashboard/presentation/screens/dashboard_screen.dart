@@ -11,7 +11,11 @@ import '../../../../shared/widgets/app_status_badge.dart';
 import '../../../authentication/presentation/providers/authentication_notifier.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
-  const DashboardScreen({super.key});
+  const DashboardScreen.authenticated({super.key}) : isDemoMode = false;
+
+  const DashboardScreen.demo({super.key}) : isDemoMode = true;
+
+  final bool isDemoMode;
 
   @override
   ConsumerState<DashboardScreen> createState() => _DashboardScreenState();
@@ -59,7 +63,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authenticationNotifierProvider);
-    final showLogoutButton = authState.isAuthenticated || _isLoggingOut;
+    final showLogoutButton =
+        !widget.isDemoMode && (authState.isAuthenticated || _isLoggingOut);
+    final demoActionLabel = authState.isAuthenticated ? 'Exit demo' : 'Sign in';
 
     return AppPageShell(
       appBar: AppBar(
@@ -70,31 +76,53 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             onPressed: () => _showComingSoonMessage(context, 'Notifications'),
             icon: const Icon(Icons.notifications_outlined),
           ),
+          if (widget.isDemoMode)
+            Tooltip(
+              message: demoActionLabel,
+              child: TextButton.icon(
+                onPressed: () {
+                  context.go(authState.isAuthenticated ? '/' : '/login');
+                },
+                icon: Icon(
+                  authState.isAuthenticated
+                      ? Icons.home_outlined
+                      : Icons.login_outlined,
+                ),
+                label: Text(demoActionLabel),
+              ),
+            ),
           if (showLogoutButton)
-            IconButton(
-              tooltip: 'Log out',
-              onPressed: _isLoggingOut ? null : _logout,
-              icon: _isLoggingOut
-                  ? const SizedBox.square(
-                      dimension: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Icon(Icons.logout_outlined),
+            Tooltip(
+              message: 'Log out',
+              child: TextButton.icon(
+                onPressed: _isLoggingOut ? null : _logout,
+                icon: _isLoggingOut
+                    ? const SizedBox.square(
+                        dimension: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Icon(Icons.logout_outlined),
+                label: Text(_isLoggingOut ? 'Logging out...' : 'Log out'),
+              ),
             ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const AppHeroCard(
+          AppHeroCard(
             title: 'Community Resilience Dashboard',
             description:
                 'Track community risks, generate AI-powered insights, and prepare evidence-based actions for local resilience.',
             icon: Icons.dashboard_customize_outlined,
             trailing: AppStatusBadge(
-              label: 'IBM Builder MVP',
-              tone: AppStatusTone.info,
-              icon: Icons.verified_outlined,
+              label: widget.isDemoMode ? 'Demo Mode' : 'IBM Builder MVP',
+              tone: widget.isDemoMode
+                  ? AppStatusTone.warning
+                  : AppStatusTone.info,
+              icon: widget.isDemoMode
+                  ? Icons.science_outlined
+                  : Icons.verified_outlined,
             ),
           ),
           const SizedBox(height: AppSpacing.lg),
