@@ -102,4 +102,50 @@ void main() {
       await tester.pump();
     },
   );
+
+  testWidgets('Authentication links keep router location in sync', (
+    tester,
+  ) async {
+    final repository = _PendingAuthenticationRepository();
+    late WidgetRef appRef;
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          authenticationRepositoryProvider.overrideWith((ref) => repository),
+        ],
+        child: Consumer(
+          builder: (context, ref, child) {
+            appRef = ref;
+
+            return MaterialApp.router(
+              routerConfig: ref.watch(appRouterProvider),
+            );
+          },
+        ),
+      ),
+    );
+
+    await tester.pumpAndSettle();
+
+    final router = appRef.read(appRouterProvider);
+
+    router.go('/login');
+    await tester.pumpAndSettle();
+
+    expect(router.routeInformationProvider.value.uri.path, '/login');
+    expect(find.text('Welcome back to DscienTia'), findsOneWidget);
+
+    await tester.tap(find.text('Create an account'));
+    await tester.pumpAndSettle();
+
+    expect(router.routeInformationProvider.value.uri.path, '/register');
+    expect(find.text('Join DscienTia'), findsOneWidget);
+
+    await tester.tap(find.text('Already have an account? Sign in'));
+    await tester.pumpAndSettle();
+
+    expect(router.routeInformationProvider.value.uri.path, '/login');
+    expect(find.text('Welcome back to DscienTia'), findsOneWidget);
+  });
 }

@@ -97,7 +97,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             onPressed: isLoading
                 ? null
                 : () {
-                    context.push('/register');
+                    context.go('/register');
                   },
             child: const Text('Create an account'),
           ),
