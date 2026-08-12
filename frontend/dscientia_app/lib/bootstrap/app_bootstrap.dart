@@ -5,8 +5,8 @@ class AppBootstrap {
   const AppBootstrap._();
 
   static Future<void> initialize() async {
-    WidgetsFlutterBinding.ensureInitialized();
     usePathUrlStrategy();
+    WidgetsFlutterBinding.ensureInitialized();
 
     await _initializeCore();
   }
