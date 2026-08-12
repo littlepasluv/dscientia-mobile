@@ -1,10 +1,12 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 class AppBootstrap {
   const AppBootstrap._();
 
   static Future<void> initialize() async {
     WidgetsFlutterBinding.ensureInitialized();
+    usePathUrlStrategy();
 
     await _initializeCore();
   }
