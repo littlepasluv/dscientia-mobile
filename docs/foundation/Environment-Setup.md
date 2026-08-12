@@ -86,14 +86,16 @@ Flutter Stable
 
 Minimum Version:
 
-3.44.7
+3.47.0
 
-> **Production web toolchain:** Use Flutter **3.44.7**
-> (framework revision `84fc5cbb223bc12f83d65b647ff8a56caf779ffd`)
-> for reproducible DscienTia web release builds. Flutter 3.44.2 exhibited
-> a web URL-strategy regression in production where clean routes such as
-> `/demo` could become `/demo#/demo`. The same application source built
-> with Flutter 3.44.7 preserves the clean path URL.
+> **Production web toolchain:** Use Flutter **3.47.0**
+> (framework revision `4cf24164269a5ebf0c16a028a00727d0e77bbb05`,
+> Dart 3.13.0) for reproducible DscienTia web release builds.
+> Production-origin verification reproduced a clean-URL regression with
+> Flutter 3.44.2 and 3.44.7 where `/demo` could become `/demo#/demo`.
+> A matched Flutter 3.47.0 bootstrap and application bundle preserved the
+> clean `/demo` path during runtime verification. This records DscienTia's
+> verified release configuration and does not claim an upstream Flutter fix.
 
 Verify:
 
