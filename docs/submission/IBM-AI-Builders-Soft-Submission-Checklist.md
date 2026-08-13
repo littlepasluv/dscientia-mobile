@@ -56,7 +56,7 @@
 - [x] IBM Bob evidence
 - [x] Controlled watsonx verification runbook
 - [x] Repository tracked working tree clean
-- [ ] Final submission branch pushed and synchronized
+- [x] Final submission branch pushed and synchronized
 
 ## Visual Assets
 
@@ -67,7 +67,7 @@
 - [x] Structured AI insight result screenshot
 - [x] Submission-ready architecture diagram
 - [x] IBM Builder project dashboard screenshot
-- [ ] Optional demo video
+- [x] Optional demo video
 
 ## Submission Narrative
 

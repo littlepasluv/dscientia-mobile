@@ -1159,6 +1159,14 @@ Production remains configured with the mock provider.
 
 ---
 
+## Public Pitch / Demo Video
+
+https://youtu.be/3c5nBU0FkCc
+
+This public video provides the DscienTia founder pitch and project introduction for submission and judging reference.
+
+---
+
 # 32. Submission Accuracy Checklist
 
 Before copying answers into the challenge dashboard, confirm:
