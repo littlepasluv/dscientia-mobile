@@ -65,7 +65,7 @@
 - [x] Main dashboard screenshot
 - [x] Structured AI insight result screenshot
 - [x] Submission-ready architecture diagram
-- [ ] IBM Builder project dashboard screenshot
+- [x] IBM Builder project dashboard screenshot
 - [ ] Optional demo video
 
 ## Submission Narrative

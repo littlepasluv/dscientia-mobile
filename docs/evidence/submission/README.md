@@ -65,6 +65,23 @@ An editable SVG source is preserved as:
 
 `dscientia-architecture-20260813.svg`
 
+## IBM Builder Project Dashboard
+
+`ibm-builder-project-dashboard-20260813.png`
+
+Shows the DscienTia project dashboard used for the challenge submission
+workflow, including:
+
+- the DscienTia project identity and visual branding;
+- Wildcard Challenge (August);
+- completed project page mapping;
+- project repository and public application links;
+- founder/team membership; and
+- the project publishing interface.
+
+This screenshot documents the project-registration and submission-dashboard
+state. It is separate from the production application and AI-provider evidence.
+
 ## Provider status
 
 The current production AI provider remains `mock`.
