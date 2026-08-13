@@ -42,6 +42,29 @@ backend workflow, including:
 - recommended action steps; and
 - the Ethical AI Note requiring human and local-context validation.
 
+## System Architecture
+
+`dscientia-architecture-20260813.png`
+
+Submission-ready architecture diagram showing:
+
+- Community User → Flutter Web Application → Laravel 12 Backend;
+- the backend AI Provider Abstraction;
+- the verified production Mock Provider path;
+- the implemented IBM watsonx.ai provider path;
+- IBM Cloud IAM and IBM Granite model integration points;
+- community-report storage and sanitized evidence logging; and
+- IBM Bob architecture/readiness review of the DscienTia repository.
+
+The green path represents the currently verified production workflow.
+
+The blue IBM path represents implemented integration components whose
+controlled live verification remains pending IBM Cloud access.
+
+An editable SVG source is preserved as:
+
+`dscientia-architecture-20260813.svg`
+
 ## Provider status
 
 The current production AI provider remains `mock`.

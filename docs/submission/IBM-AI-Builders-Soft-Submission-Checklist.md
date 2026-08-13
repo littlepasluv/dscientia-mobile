@@ -64,7 +64,7 @@
 - [x] IBM Bob watsonx-readiness review screenshot
 - [x] Main dashboard screenshot
 - [x] Structured AI insight result screenshot
-- [ ] Submission-ready architecture diagram
+- [x] Submission-ready architecture diagram
 - [ ] IBM Builder project dashboard screenshot
 - [ ] Optional demo video
 

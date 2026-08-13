@@ -1,0 +1,450 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1600"
+     height="900"
+     viewBox="0 0 1600 900">
+
+  <defs>
+    <marker id="arrow"
+            markerWidth="10"
+            markerHeight="10"
+            refX="9"
+            refY="3"
+            orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#475569"/>
+    </marker>
+
+    <style>
+      text {
+        font-family: -apple-system, BlinkMacSystemFont,
+                     "Segoe UI", Arial, sans-serif;
+        fill: #0f172a;
+      }
+
+      .title {
+        font-size: 38px;
+        font-weight: 700;
+      }
+
+      .subtitle {
+        font-size: 20px;
+        fill: #475569;
+      }
+
+      .node-title {
+        font-size: 22px;
+        font-weight: 700;
+      }
+
+      .node-sub {
+        font-size: 16px;
+        fill: #475569;
+      }
+
+      .small {
+        font-size: 15px;
+      }
+
+      .verified {
+        fill: #ecfdf5;
+        stroke: #059669;
+        stroke-width: 3;
+      }
+
+      .core {
+        fill: #f8fafc;
+        stroke: #334155;
+        stroke-width: 3;
+      }
+
+      .ibm {
+        fill: #eff6ff;
+        stroke: #2563eb;
+        stroke-width: 3;
+      }
+
+      .support {
+        fill: #f8fafc;
+        stroke: #64748b;
+        stroke-width: 2;
+      }
+
+      .line {
+        stroke: #475569;
+        stroke-width: 3;
+        fill: none;
+        marker-end: url(#arrow);
+      }
+
+      .pending-line {
+        stroke: #2563eb;
+        stroke-width: 3;
+        stroke-dasharray: 10 8;
+        fill: none;
+        marker-end: url(#arrow);
+      }
+
+      .support-line {
+        stroke: #64748b;
+        stroke-width: 2;
+        fill: none;
+        marker-end: url(#arrow);
+      }
+    </style>
+  </defs>
+
+  <rect width="1600"
+        height="900"
+        rx="28"
+        fill="#ffffff"/>
+
+  <text x="80"
+        y="78"
+        class="title">
+    DscienTia — System Architecture
+  </text>
+
+  <text x="80"
+        y="116"
+        class="subtitle">
+    Production-verified community risk workflow and IBM integration readiness
+  </text>
+
+  <!-- Main application flow -->
+
+  <rect x="80"
+        y="210"
+        width="250"
+        height="120"
+        rx="20"
+        class="core"/>
+
+  <text x="205"
+        y="260"
+        text-anchor="middle"
+        class="node-title">
+    Community User
+  </text>
+
+  <text x="205"
+        y="292"
+        text-anchor="middle"
+        class="node-sub">
+    Structured risk report
+  </text>
+
+  <rect x="410"
+        y="210"
+        width="280"
+        height="120"
+        rx="20"
+        class="core"/>
+
+  <text x="550"
+        y="258"
+        text-anchor="middle"
+        class="node-title">
+    Flutter Web Application
+  </text>
+
+  <text x="550"
+        y="292"
+        text-anchor="middle"
+        class="node-sub">
+    Responsive production UI
+  </text>
+
+  <rect x="770"
+        y="210"
+        width="280"
+        height="120"
+        rx="20"
+        class="core"/>
+
+  <text x="910"
+        y="258"
+        text-anchor="middle"
+        class="node-title">
+    Laravel 12 Backend
+  </text>
+
+  <text x="910"
+        y="292"
+        text-anchor="middle"
+        class="node-sub">
+    Validation • REST API • storage
+  </text>
+
+  <rect x="1130"
+        y="210"
+        width="330"
+        height="120"
+        rx="20"
+        class="core"/>
+
+  <text x="1295"
+        y="258"
+        text-anchor="middle"
+        class="node-title">
+    AI Provider Abstraction
+  </text>
+
+  <text x="1295"
+        y="292"
+        text-anchor="middle"
+        class="node-sub">
+    Swappable backend provider
+  </text>
+
+  <path d="M330 270 H410"
+        class="line"/>
+
+  <path d="M690 270 H770"
+        class="line"/>
+
+  <path d="M1050 270 H1130"
+        class="line"/>
+
+  <text x="730"
+        y="192"
+        text-anchor="middle"
+        class="small">
+    HTTPS REST API
+  </text>
+
+  <!-- Verified production path -->
+
+  <rect x="1110"
+        y="430"
+        width="370"
+        height="135"
+        rx="20"
+        class="verified"/>
+
+  <text x="1295"
+        y="478"
+        text-anchor="middle"
+        class="node-title">
+    Verified Mock Provider
+  </text>
+
+  <text x="1295"
+        y="510"
+        text-anchor="middle"
+        class="node-sub">
+    Production provider: mock
+  </text>
+
+  <text x="1295"
+        y="538"
+        text-anchor="middle"
+        class="node-sub">
+    Structured community-risk insight
+  </text>
+
+  <path d="M1295 330 V430"
+        class="line"/>
+
+  <!-- Backend data/evidence -->
+
+  <rect x="725"
+        y="430"
+        width="300"
+        height="110"
+        rx="18"
+        class="support"/>
+
+  <text x="875"
+        y="473"
+        text-anchor="middle"
+        class="node-title">
+    Community Reports
+  </text>
+
+  <text x="875"
+        y="505"
+        text-anchor="middle"
+        class="node-sub">
+    Validated report records
+  </text>
+
+  <rect x="725"
+        y="585"
+        width="300"
+        height="110"
+        rx="18"
+        class="support"/>
+
+  <text x="875"
+        y="628"
+        text-anchor="middle"
+        class="node-title">
+    Logs &amp; Evidence
+  </text>
+
+  <text x="875"
+        y="660"
+        text-anchor="middle"
+        class="node-sub">
+    Sanitized verification records
+  </text>
+
+  <path d="M910 330 V430"
+        class="support-line"/>
+
+  <path d="M910 540 V585"
+        class="support-line"/>
+
+  <!-- IBM implemented / pending live verification -->
+
+  <rect x="80"
+        y="430"
+        width="310"
+        height="135"
+        rx="20"
+        class="ibm"/>
+
+  <text x="235"
+        y="475"
+        text-anchor="middle"
+        class="node-title">
+    IBM watsonx.ai Provider
+  </text>
+
+  <text x="235"
+        y="510"
+        text-anchor="middle"
+        class="node-sub">
+    Implemented in Laravel
+  </text>
+
+  <text x="235"
+        y="538"
+        text-anchor="middle"
+        class="node-sub">
+    Live verification pending
+  </text>
+
+  <rect x="80"
+        y="635"
+        width="220"
+        height="105"
+        rx="18"
+        class="ibm"/>
+
+  <text x="190"
+        y="680"
+        text-anchor="middle"
+        class="node-title">
+    IBM Cloud IAM
+  </text>
+
+  <text x="190"
+        y="710"
+        text-anchor="middle"
+        class="node-sub">
+    Backend authentication
+  </text>
+
+  <rect x="350"
+        y="635"
+        width="250"
+        height="105"
+        rx="18"
+        class="ibm"/>
+
+  <text x="475"
+        y="680"
+        text-anchor="middle"
+        class="node-title">
+    IBM Granite Model
+  </text>
+
+  <text x="475"
+        y="710"
+        text-anchor="middle"
+        class="node-sub">
+    Configured target model
+  </text>
+
+  <path d="M1130 295
+           C900 370 580 365 390 475"
+        class="pending-line"/>
+
+  <path d="M190 565 V635"
+        class="pending-line"/>
+
+  <path d="M280 565
+           C320 595 400 610 455 635"
+        class="pending-line"/>
+
+  <!-- IBM Bob development evidence -->
+
+  <rect x="650"
+        y="760"
+        width="300"
+        height="90"
+        rx="18"
+        class="support"/>
+
+  <text x="800"
+        y="800"
+        text-anchor="middle"
+        class="node-title">
+    IBM Bob
+  </text>
+
+  <text x="800"
+        y="829"
+        text-anchor="middle"
+        class="node-sub">
+    Architecture &amp; readiness review
+  </text>
+
+  <rect x="1010"
+        y="760"
+        width="330"
+        height="90"
+        rx="18"
+        class="support"/>
+
+  <text x="1175"
+        y="800"
+        text-anchor="middle"
+        class="node-title">
+    DscienTia Repository
+  </text>
+
+  <text x="1175"
+        y="829"
+        text-anchor="middle"
+        class="node-sub">
+    Source • tests • evidence
+  </text>
+
+  <path d="M950 805 H1010"
+        class="support-line"/>
+
+  <!-- Legend -->
+
+  <circle cx="1120"
+          cy="665"
+          r="8"
+          fill="#059669"/>
+
+  <text x="1140"
+        y="671"
+        class="small">
+    Verified production path
+  </text>
+
+  <circle cx="1120"
+          cy="705"
+          r="8"
+          fill="#2563eb"/>
+
+  <text x="1140"
+        y="711"
+        class="small">
+    Implemented IBM path — live verification pending
+  </text>
+</svg>
