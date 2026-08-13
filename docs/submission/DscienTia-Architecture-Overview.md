@@ -22,3 +22,4 @@ flowchart LR
     L --> E[Sanitized Logs and Evidence]
 
     B[IBM Bob] -->|Architecture and Readiness Review| C[DscienTia Repository]
+```

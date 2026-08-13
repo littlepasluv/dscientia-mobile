@@ -84,17 +84,18 @@ However, fragmented reporting makes the information difficult to compare,
 prioritize, analyze, and use consistently.
 
 DscienTia provides a mobile-first workflow in which users submit structured
-community reports containing information such as:
+community reports. The current verified production form collects:
 
-- organization;
-- reporter;
+- report title;
 - issue category;
 - location;
 - urgency;
-- detailed description;
-- estimated number of people affected;
-- report status;
-- supporting source link when available.
+- detailed description; and
+- estimated number of people affected.
+
+The backend architecture can evolve to support additional organizational,
+reporter, status, and source metadata without exposing AI-provider credentials
+to the client.
 
 The Laravel backend validates and stores the report, then processes it through
 an AI provider abstraction. The resulting structured insight can include:
@@ -273,17 +274,15 @@ DscienTia therefore connects:
 
 ## Community Risk Reporting
 
-Users can submit structured reports containing:
+The current verified production form allows users to submit structured reports
+containing:
 
-- organization name;
-- reporter name;
+- report title;
 - category;
 - location;
 - urgency;
-- description;
-- estimated affected population;
-- status;
-- optional source URL.
+- description; and
+- estimated affected population.
 
 ## Report Validation
 
@@ -844,9 +843,11 @@ docs/evidence/submission/
 
 Contains:
 
-- main dashboard;
-- structured AI insight result;
-- visual evidence description.
+- final production dashboard;
+- backend AI insight overview and provider metadata;
+- submission-ready architecture diagram;
+- IBM Builder project dashboard; and
+- visual evidence documentation.
 
 ---
 
@@ -1155,6 +1156,14 @@ DSCIENTIA_AI_PROVIDER=mock
 ```
 
 Production remains configured with the mock provider.
+
+---
+
+## Public Pitch / Demo Video
+
+https://youtu.be/3c5nBU0FkCc
+
+This public video provides the DscienTia founder pitch and project introduction for submission and judging reference.
 
 ---
 

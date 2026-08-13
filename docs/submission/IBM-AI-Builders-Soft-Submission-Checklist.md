@@ -1,4 +1,4 @@
-# IBM AI Builders Challenge — Soft Submission Checklist
+# IBM AI Builders Challenge — Final Submission Readiness Checklist
 
 ## Project Identity
 
@@ -55,18 +55,19 @@
 - [x] Pre-cloud verification evidence
 - [x] IBM Bob evidence
 - [x] Controlled watsonx verification runbook
-- [x] Repository clean and synchronized
+- [x] Repository tracked working tree clean
+- [x] Final submission branch pushed and synchronized
 
 ## Visual Assets
 
 - [x] Flutter report form screenshot
 - [x] Flutter-to-backend network-flow screenshot
 - [x] IBM Bob watsonx-readiness review screenshot
-- [ ] Main dashboard screenshot
-- [ ] Structured AI insight result screenshot
-- [ ] Submission-ready architecture diagram
-- [ ] IBM Builder project dashboard screenshot
-- [ ] Optional demo video
+- [x] Main dashboard screenshot
+- [x] Structured AI insight result screenshot
+- [x] Submission-ready architecture diagram
+- [x] IBM Builder project dashboard screenshot
+- [x] Optional demo video
 
 ## Submission Narrative
 
@@ -76,13 +77,13 @@
 - [x] IBM Bob usage described accurately
 - [x] watsonx implementation status described accurately
 - [x] Current limitations disclosed
-- [ ] Final 1–2 minute pitch script
-- [ ] Demo walkthrough script
-- [ ] Final submission-form answers reviewed
+- [x] Final 1–2 minute pitch script
+- [x] Demo walkthrough script
+- [x] Final submission-form answers reviewed
 
 ## Current Gate
 
-Soft-submission preparation may continue using the verified mock workflow.
+Final-submission preparation may continue using the verified mock workflow.
 
 The submission must not claim that a live watsonx or Granite request has been
 completed until controlled verification produces evidence with:
@@ -90,3 +91,4 @@ completed until controlled verification produces evidence with:
 ```text
 model_provider=watsonx
 status=completed
+```
