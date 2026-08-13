@@ -57,7 +57,7 @@ Open the Community Risk Report form.
 
 Narration:
 
-> A user can submit a structured community report containing the organization,
+> A user can submit a structured community report containing a report title,
 > category, location, urgency, description, and estimated number of people
 > affected.
 

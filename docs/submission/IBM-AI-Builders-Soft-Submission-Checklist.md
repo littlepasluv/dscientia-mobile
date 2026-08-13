@@ -55,7 +55,8 @@
 - [x] Pre-cloud verification evidence
 - [x] IBM Bob evidence
 - [x] Controlled watsonx verification runbook
-- [x] Repository clean and synchronized
+- [x] Repository tracked working tree clean
+- [ ] Final submission branch pushed and synchronized
 
 ## Visual Assets
 
@@ -78,7 +79,7 @@
 - [x] Current limitations disclosed
 - [x] Final 1–2 minute pitch script
 - [x] Demo walkthrough script
-- [ ] Final submission-form answers reviewed
+- [x] Final submission-form answers reviewed
 
 ## Current Gate
 
