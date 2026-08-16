@@ -11,6 +11,8 @@ import '../../features/reports/domain/entities/community_risk_report_draft.dart'
 import '../../features/reports/presentation/screens/community_risk_report_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
+  GoRouter.optionURLReflectsImperativeAPIs = true;
+
   final router = GoRouter(
     initialLocation: '/demo',
     redirect: (context, state) {
