@@ -298,7 +298,7 @@ Example:
 ```env
 WATSONX_API_KEY=
 WATSONX_PROJECT_ID=
-WATSONX_URL=
+WATSONX_BASE_URL=https://us-south.ml.cloud.ibm.com
 ```
 
 ---

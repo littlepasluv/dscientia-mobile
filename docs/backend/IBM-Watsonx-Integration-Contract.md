@@ -2,15 +2,20 @@
 
 ## Status
 
-Contract prepared.
+The IBM/watsonx provider implementation is complete and covered by automated tests.
 
-Real IBM/watsonx API calls are not enabled yet.
+Controlled live IBM/watsonx verification remains pending because approved
+IBM Cloud access, a watsonx.ai project, a Project ID, an IAM API key, and
+supported model access are not currently available.
+
+Production remains configured with the mock provider.
 
 ## Purpose
 
 This document defines how DscienTia will connect its backend AI insight generation flow to IBM/watsonx in a safe and replaceable way.
 
-The current MVP uses a local mock AI insight generator. The backend now uses a service contract so that the mock provider can later be replaced with a real IBM/watsonx provider without changing the API controller.
+The current MVP uses a provider abstraction so that the mock and IBM/watsonx
+implementations can be selected without changing the API controller.
 
 ## Current Provider
 
@@ -41,9 +46,13 @@ App\Services\AiInsight\MockAiInsightGenerator
 App\Services\AiInsight\WatsonxAiInsightGenerator
 ```
 
-The Watsonx implementation is currently a placeholder.
+The Watsonx implementation is complete at the application integration boundary.
+It includes IAM token acquisition, authenticated watsonx HTTP requests, prompt
+construction, structured response mapping, retry handling, sanitized errors,
+and optional mock fallback.
 
-It must not send external requests until credentials, model configuration, prompt governance, and response validation are finalized.
+It must only be activated when valid IBM Cloud credentials, project configuration,
+and supported model access are available.
 
 ## Configuration
 
