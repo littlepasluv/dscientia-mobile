@@ -332,7 +332,12 @@ PUT /reports/{reportId}
 
 # AI Intelligence APIs
 
-The following APIs interact with the AI Intelligence Layer powered by IBM watsonx.
+The following APIs interact with the DscienTia AI Intelligence Layer
+through the backend provider abstraction.
+
+The current production environment uses the deterministic Mock Provider.
+The IBM watsonx provider is implemented as a separate integration path
+and remains pending controlled live verification.
 
 ---
 
