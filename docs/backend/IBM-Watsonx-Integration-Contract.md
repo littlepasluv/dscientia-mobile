@@ -107,8 +107,14 @@ This is intentional for MVP-010.
 
 The purpose of this milestone is to prepare the integration boundary, not to activate IBM/watsonx production calls.
 
-## Next Milestone
+## Current Integration Status
 
-```text
-MVP-011 — Backend API manual testing and Flutter integration preparation
-```
+The IBM/watsonx provider integration boundary is implemented and covered by
+automated tests.
+
+The next required milestone is MVP-015E — Controlled IBM watsonx Verification,
+which remains blocked until approved IBM Cloud access, a watsonx.ai project,
+valid Project ID, IAM API key, and supported model access are available.
+
+Production remains on the mock provider until controlled live verification is
+successfully completed.

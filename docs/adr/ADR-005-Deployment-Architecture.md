@@ -17,7 +17,7 @@ The project needs a deployment structure that supports:
 - public product communication;
 - live MVP demonstration;
 - backend API development;
-- future IBM/watsonx integration;
+- implemented IBM/watsonx provider integration boundary and controlled live verification;
 - secure handling of AI provider credentials.
 
 Using a single domain for everything would make the system harder to explain, harder to secure, and harder to scale.
@@ -66,7 +66,7 @@ Responsible for:
 - reports;
 - AI insights;
 - backend service layer;
-- future IBM/watsonx integration.
+- implemented IBM/watsonx provider integration boundary.
 
 ## AI Security Decision
 
@@ -79,7 +79,9 @@ Flutter Web
 ↓
 Laravel API
 ↓
-IBM/watsonx
+AI Provider Contract
+├── Deterministic Mock Provider (production)
+└── IBM/watsonx Provider (implemented, pending controlled live verification)
 ```
 
 IBM/watsonx credentials must be stored only in backend environment variables.

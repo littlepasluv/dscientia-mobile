@@ -2,9 +2,9 @@
 
 ## Overview
 
-This document defines the planned backend architecture for DscienTia reports and AI insights.
+This document defines the implemented backend architecture for DscienTia reports and AI insights.
 
-The backend will serve as the bridge between the Flutter mobile app, persistent report data, AI insight generation, and future IBM/watsonx integration.
+The backend serves as the bridge between the Flutter mobile app, persistent report data, AI insight generation, and the implemented IBM/watsonx provider integration boundary.
 
 The goal is to support an IBM Builder-ready MVP without overbuilding the backend too early.
 
@@ -17,10 +17,10 @@ The backend enables:
 - persistent community risk reports;
 - authenticated API access;
 - AI insight generation;
-- future IBM/watsonx integration;
+- implemented IBM/watsonx provider integration boundary;
 - audit-ready decision-support workflow.
 
-## Planned Backend Structure
+## Backend Structure
 
 Target location:
 
@@ -329,7 +329,10 @@ Purpose:
 
 ## IBM/watsonx Provider
 
-The IBM/watsonx provider should be added after the mock API works.
+The IBM/watsonx provider integration boundary is implemented behind the same
+provider contract as the mock provider. It is covered by automated tests and
+remains disabled in production until controlled live IBM verification is
+completed.
 
 Responsibilities:
 
@@ -401,6 +404,13 @@ Define IBM/watsonx integration contract
 
 MVP-011
 Connect Flutter to backend AI Insight API
+
+MVP-015B–MVP-015D
+Implement and test the IBM/watsonx provider, response mapping, retry policy,
+safe fallback, logging, and error sanitization
+
+MVP-015E
+Perform controlled live IBM watsonx verification
 ```
 
 ## Architecture Decision
@@ -420,3 +430,7 @@ AiInsight structured JSON response
 ```
 
 This keeps the Flutter app stable while the backend AI provider evolves.
+
+Production currently uses the deterministic mock provider through
+`DSCIENTIA_AI_PROVIDER=mock`; IBM/watsonx activation remains pending controlled
+live verification.

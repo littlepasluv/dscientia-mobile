@@ -195,7 +195,7 @@ Verify:
 **Database readiness:** Ready
 **Flutter-to-backend readiness:** Ready
 **Mock AI demonstration readiness:** Ready
-**IBM watsonx integration readiness:** Architecture ready, provider implementation pending
+**IBM watsonx integration readiness:** Provider implementation complete, controlled live verification pending
 **IBM-powered production status:** Not yet active
 
 ---
@@ -217,12 +217,12 @@ Verify:
 | IBM watsonx project or space configuration    | Pending | Project or space identifier required                  |
 | IBM regional API endpoint                     | Pending | Must match the selected IBM Cloud region              |
 | Foundation model selection                    | Pending | Model must be selected and documented                 |
-| Laravel watsonx provider implementation       | Pending | Replace mock generation with IBM API invocation       |
-| IBM response mapping                          | Pending | Map model output into the existing insight contract   |
-| Timeout and retry handling                    | Pending | Required for external-provider failures               |
-| Safe fallback behavior                        | Pending | Preserve controlled mock or error fallback            |
-| Prompt and response guardrails                | Pending | Validate structured, safe, non-authoritative output   |
-| Provider observability                        | Pending | Record provider, model, latency, and failure metadata |
+| Laravel watsonx provider implementation       | Ready   | Implemented provider behind the AI generator contract |
+| IBM response mapping                          | Ready   | Structured response mapping implemented                |
+| Timeout and retry handling                    | Ready   | Retry policy and timeout handling implemented           |
+| Safe fallback behavior                        | Ready   | Controlled mock fallback implemented                    |
+| Prompt and response guardrails                | Ready   | Prompt guardrails and structured output validation      |
+| Provider observability                        | Ready   | Provider/model metadata and sanitized failure handling |
 | Real IBM integration evidence                 | Pending | Screenshots, logs, and response metadata required     |
 | IBM-powered production demonstration          | Pending | Only valid after the real provider is deployed        |
 
@@ -309,13 +309,16 @@ an AI insight through the Laravel backend. Both production POST requests
 returned HTTP 201, while their CORS preflight requests returned HTTP 204.
 
 The platform is ready for a controlled IBM Builder MVP demonstration
-and technically prepared for IBM watsonx provider implementation.
+and technically prepared for controlled IBM watsonx verification. The
+IBM/watsonx provider implementation is complete at the application
+integration boundary, while production remains on the deterministic mock
+provider pending controlled live verification.
 
 IBM watsonx is not yet active in production.
 
 ### Target completion statement
 
-> DscienTia Mobile passed its production smoke test across the public landing page, Flutter Web frontend, Laravel API, MySQL persistence layer, report workflow, and mock backend AI insight workflow. The platform is ready for a controlled IBM Builder MVP demonstration and technically prepared for IBM watsonx provider implementation. IBM watsonx is not yet active in production.
+> DscienTia Mobile passed its production smoke test across the public landing page, Flutter Web frontend, Laravel API, MySQL persistence layer, report workflow, and mock backend AI insight workflow. The platform is ready for a controlled IBM Builder MVP demonstration and technically prepared for controlled IBM watsonx verification. The IBM/watsonx provider implementation is complete at the application integration boundary, while production remains on the deterministic mock provider pending controlled live verification. IBM watsonx is not yet active in production.
 
 ---
 

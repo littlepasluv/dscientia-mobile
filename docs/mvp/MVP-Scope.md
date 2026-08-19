@@ -177,11 +177,11 @@ The following features are intentionally excluded from MVP:
 
 # AI Scope
 
-The MVP will initially use mock AI responses.
+The MVP currently uses deterministic mock AI responses in production.
 
-Real IBM watsonx integration will be implemented during:
-
-v0.7 IBM AI Integration
+The IBM/watsonx provider integration boundary is implemented and covered by
+automated tests. Controlled live IBM watsonx verification is tracked under
+MVP-015E and remains pending the required IBM Cloud access and configuration.
 
 This approach allows validation of:
 

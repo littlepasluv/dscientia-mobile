@@ -25,16 +25,16 @@ Each subdomain has a clear responsibility:
 
 - `www.dscientia.dev` explains the mission, product story, and credibility.
 - `app.dscientia.dev` provides a live product demo.
-- `api.dscientia.dev` handles backend logic, authentication, reports, AI insights, and future IBM/watsonx integration.
+- `api.dscientia.dev` handles backend logic, authentication, reports, AI insights, and the implemented IBM/watsonx provider integration boundary.
 
 ## Current Status
 
 Current deployment status:
 
 ```text
-www.dscientia.dev  : existing landing page
-app.dscientia.dev  : planned Flutter Web MVP deployment
-api.dscientia.dev  : planned Laravel API deployment
+www.dscientia.dev  : live landing page
+app.dscientia.dev  : live Flutter Web MVP
+api.dscientia.dev  : live Laravel API
 ```
 
 ## Strategic Direction
@@ -48,7 +48,9 @@ Flutter Web App
 ↓
 Laravel API Backend
 ↓
-IBM/watsonx Service Layer
+AI Provider Contract
+├── Deterministic Mock Provider (production)
+└── IBM/watsonx Provider (implemented, pending controlled live verification)
 ```
 
 ## Deployment Sequence
@@ -57,16 +59,20 @@ Recommended deployment order:
 
 ```text
 DEPLOY-001
-Deploy Flutter Web MVP to app.dscientia.dev
+Deploy Flutter Web MVP to app.dscientia.dev — completed
 
 DEPLOY-002
-Prepare api.dscientia.dev for Laravel backend
+Prepare api.dscientia.dev for Laravel backend — completed
 
 DEPLOY-003
-Connect Flutter Web MVP to Laravel API
+Connect Flutter Web MVP to Laravel API — completed
 
-DEPLOY-004
-Add IBM/watsonx backend integration
+IBM/watsonx provider integration
+Implemented at the backend application boundary; controlled live verification
+is tracked under MVP-015E.
+
+Production remains on the deterministic mock provider until live IBM
+verification succeeds.
 ```
 
 ## Related Documents

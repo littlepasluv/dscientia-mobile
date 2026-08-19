@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document defines how DscienTia integrates with IBM watsonx.ai and IBM Granite models to provide AI-powered Community Impact Intelligence.
+This document defines the implemented IBM watsonx.ai and IBM Granite provider integration boundary for DscienTia's AI-powered Community Impact Intelligence.
 
 The integration enables DscienTia to transform field reports, community observations, and impact metrics into actionable insights that support decision-making for NGOs, foundations, researchers, and community leaders.
 
@@ -14,13 +14,17 @@ This document serves as the implementation blueprint for the AI Intelligence Lay
 
 DscienTia does not use AI merely for conversation.
 
-The platform uses IBM watsonx.ai to generate:
+The AI provider architecture supports generation of:
 
 * Community Insights
 * Risk Assessments
 * Action Recommendations
 * Impact Trend Analysis
 * Decision Support Intelligence
+
+The IBM watsonx.ai provider is implemented behind the backend provider
+contract. Production currently uses the deterministic mock provider through
+`DSCIENTIA_AI_PROVIDER=mock` until controlled live IBM verification succeeds.
 
 The objective is to help organizations move from reactive reporting to proactive intervention.
 
@@ -43,7 +47,7 @@ Responsibilities:
 
 ## IBM Granite Models
 
-Primary language models used by DscienTia.
+The provider configuration supports IBM Granite models for the controlled live watsonx integration.
 
 Responsibilities:
 

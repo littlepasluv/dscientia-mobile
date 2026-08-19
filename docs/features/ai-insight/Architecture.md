@@ -173,9 +173,9 @@ The backend AI Insight endpoint should return a structured JSON response similar
 }
 ```
 
-## IBM/watsonx Integration Direction
+## IBM/watsonx Integration
 
-The future IBM/watsonx integration should follow this responsibility split:
+The implemented IBM/watsonx integration boundary follows this responsibility split:
 
 ```text
 Flutter
@@ -191,8 +191,12 @@ Laravel Backend
 - stores insight result
 
 IBM watsonx.ai
-- generates structured resilience insight
+- generates structured resilience insight when the real provider is activated
 - supports explainable, controlled, and governed AI output
+
+Production currently remains on the deterministic mock provider through
+`DSCIENTIA_AI_PROVIDER=mock`. Controlled live IBM watsonx verification is
+tracked under MVP-015E.
 ```
 
 ## Ethical AI Requirements

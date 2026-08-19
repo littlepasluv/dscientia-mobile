@@ -1,48 +1,56 @@
 # DscienTia Backend
 
-The DscienTia backend will provide the API foundation for authentication, community risk reports, AI insight generation, and future IBM/watsonx integration.
-
-The backend is planned to use Laravel as the main API framework.
+The DscienTia backend is the Laravel API layer for authentication, community
+risk reports, AI insight generation, and the replaceable IBM/watsonx provider
+integration.
 
 ## Purpose
 
-The backend exists to support the DscienTia mobile MVP by providing:
+The backend supports the DscienTia mobile MVP by providing:
 
 - secure user authentication;
 - community risk report persistence;
 - AI insight generation endpoints;
 - structured response validation;
-- future IBM/watsonx integration;
+- a replaceable AI provider abstraction;
+- an implemented IBM/watsonx integration path;
 - audit-ready data flow for community resilience insights.
 
 ## Current Status
 
-Current status: architecture planning.
+Current status: implemented and deployed.
 
-At this stage, the Flutter MVP already supports:
+The backend currently provides:
 
-- authentication foundation;
-- dashboard skeleton;
-- community risk report form;
-- mock AI insight generator;
-- AI insight result screen.
+- Laravel API foundation;
+- authentication endpoints;
+- community risk report persistence;
+- AI insight generation;
+- deterministic mock AI provider;
+- IBM/watsonx provider integration behind the same provider contract;
+- structured AI insight response handling;
+- automated provider and API tests.
 
-The backend has not been implemented yet.
+Production currently uses the deterministic mock provider through
+`DSCIENTIA_AI_PROVIDER=mock`. Controlled live IBM/watsonx verification remains
+pending approved IBM Cloud access and the required watsonx project, credentials,
+and model availability.
 
-## Planned Backend Stack
+## Backend Stack
 
 ```text
 Laravel
-PostgreSQL
+MySQL
 REST API
 Token-based authentication
+AI provider abstraction
 IBM/watsonx integration layer
 Structured JSON AI response
 ```
 
-## Planned Backend Location
+## Backend Location
 
-The backend should live inside the monorepo under:
+The backend lives inside the monorepo under:
 
 ```text
 backend/dscientia_api
@@ -61,7 +69,7 @@ dscientia-mobile/
 
 ## Core Backend Modules
 
-The first backend MVP should include:
+The implemented backend includes:
 
 ```text
 Authentication
@@ -71,9 +79,10 @@ Users
 Audit / Logs
 ```
 
-## MVP Backend Scope
+## Backend MVP Scope
 
-The first backend implementation should focus only on what is required for the IBM Builder MVP.
+The implemented backend focuses on the API capabilities required for the
+DscienTia MVP and IBM Builder submission.
 
 ### In Scope
 
