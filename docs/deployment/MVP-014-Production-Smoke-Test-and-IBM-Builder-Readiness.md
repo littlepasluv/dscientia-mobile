@@ -38,7 +38,7 @@ The current production environment intentionally uses:
 DSCIENTIA_AI_PROVIDER=mock
 ```
 
-The application must not yet be described as powered by IBM watsonx.
+The application must not yet be described as using IBM watsonx in production.
 
 ---
 
@@ -264,7 +264,7 @@ The Laravel backend remains responsible for:
 
 ### Description that must not yet be used
 
-> DscienTia is powered by IBM watsonx.
+> Do not state that the production application is currently powered by the IBM provider.
 
 This statement becomes accurate only after:
 
